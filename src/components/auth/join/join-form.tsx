@@ -1,5 +1,7 @@
 'use client';
 import { useForm } from '@/hooks/common/useForm';
+import { joinFormSchema } from '@/models/auth/join.schema';
+import { showToast } from '@/utils/show-toast';
 import Link from 'next/link';
 
 export default function JoinForm() {
@@ -14,8 +16,20 @@ export default function JoinForm() {
 
   const onSubmitHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // TODO: Validation Check!
-    fetch('http://localhost:8080/api/auth/register', {
+
+    // Validation
+    const validationResult = joinFormSchema.safeParse(joinForm);
+    if (!validationResult.success) {
+      const errorMessages = validationResult.error.format();
+      console.log(errorMessages); // Validation errors will be logged here
+      showToast('error', <>로그인 오류</>);
+
+      return;
+    }
+
+    // Register Fetch
+
+    /* fetch('http://localhost:8080/api/auth/register', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -29,7 +43,7 @@ export default function JoinForm() {
         } else {
           alert(res.message);
         }
-      });
+      }); */
   };
 
   return (
@@ -41,7 +55,14 @@ export default function JoinForm() {
         <label className="w-[100px] inline-block" htmlFor="email">
           이메일
         </label>
-        <input type="email" placeholder="이메일" name="email" id="email" />
+        <input
+          type="email"
+          placeholder="이메일"
+          name="email"
+          id="email"
+          value={joinForm.email}
+          onChange={onChangeHandler}
+        />
       </div>
       <div>
         <label className="w-[100px] inline-block" htmlFor="password">
