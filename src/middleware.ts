@@ -1,8 +1,20 @@
+import { getSession } from 'next-auth/react';
 import { NextResponse } from 'next/server';
-import type { NextRequest } from 'next/server';
+import { NextRequest } from 'next/server';
+import { match } from 'path-to-regexp';
+
+// 경로 일치 확인!
+function isMatch(pathname: string, urls: string[]) {
+  return urls.some((url) => !!match(url)(pathname));
+}
+
+// 인증이 필요한 경로
+const matchersForAuth: string[] = [];
+
+const matchersForSignIn = ['/login', '/join'];
 
 // 미들웨어로 인증 상태 확인
-export function middleware(request: NextRequest) {
+export async function middleware(request: NextRequest) {
   // const token = request.cookies.get('auth-token'); // 예시로 토큰을 쿠키에서 가져오는 방식
   // console.log('request', token);
 
@@ -11,7 +23,20 @@ export function middleware(request: NextRequest) {
   //   return NextResponse.redirect(new URL('/login', request.url));
   // }
 
-  // 인증된 사용자는 인덱스 페이지로 이동
+  // 인증이 필요한 페이지 접근 제어
+  if (isMatch(request.nextUrl.pathname, matchersForAuth)) {
+    return (await getSession()) // 세션 정보 확인
+      ? NextResponse.next()
+      : NextResponse.redirect(new URL('/login', request.url));
+  }
+
+  // 인증 후 회원가입, 로그인 페이지 접근 제어
+  if (isMatch(request.nextUrl.pathname, matchersForSignIn)) {
+    return (await getSession()) // 세션 정보 확인
+      ? NextResponse.redirect(new URL('/', request.url))
+      : NextResponse.next();
+  }
+
   return NextResponse.next();
 }
 

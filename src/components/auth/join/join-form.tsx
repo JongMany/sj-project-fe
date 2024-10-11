@@ -3,6 +3,7 @@ import { useForm } from '@/hooks/common/useForm';
 import { joinFormSchema } from '@/models/auth/join.schema';
 import { showToast } from '@/utils/show-toast';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 export default function JoinForm() {
   const { form: joinForm, onChange: onChangeHandler } = useForm({
@@ -13,6 +14,7 @@ export default function JoinForm() {
     phoneNumber: '',
     group: 'A', // 'A' | 'B' | 'C' | 'D'
   });
+  const router = useRouter();
 
   const onSubmitHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -23,13 +25,12 @@ export default function JoinForm() {
       const errorMessages = validationResult.error.format();
       console.log(errorMessages); // Validation errors will be logged here
       showToast('error', <>로그인 오류</>);
-
       return;
     }
 
     // Register Fetch
 
-    /* fetch('http://localhost:8080/api/auth/register', {
+    fetch('http://localhost:8080/api/auth/register', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -38,12 +39,15 @@ export default function JoinForm() {
     })
       .then((res) => res.json())
       .then((res) => {
+        console.log(res);
+
         if (res.success) {
           alert('회원가입 성공');
+          router.replace('/login');
         } else {
           alert(res.message);
         }
-      }); */
+      });
   };
 
   return (
