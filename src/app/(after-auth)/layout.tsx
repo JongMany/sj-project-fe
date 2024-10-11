@@ -1,4 +1,5 @@
-import Header from '@/components/shared/header';
+import MainHeader from '@/components/shared/main-header';
+import { Layout } from 'antd';
 
 export default function RootLayout({
   children,
@@ -6,9 +7,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <>
-      <Header />
+    <Layout>
+      <MainHeader />
       {children}
-    </>
+    </Layout>
   );
 }
