@@ -3,11 +3,13 @@ export declare module 'next-auth' {
     accessToken: string;
     refreshToken: string;
     accessTokenExpires: number;
+    group: 'A' | 'B' | 'C' | 'D';
   }
   interface Session {
     accessToken: string;
     refreshToken: string;
     accessTokenExpires: number;
+    group: 'A' | 'B' | 'C' | 'D';
   }
 }
 export declare module '@auth/core/jwt' {
@@ -15,5 +17,6 @@ export declare module '@auth/core/jwt' {
     accessToken: string;
     refreshToken: string;
     accessTokenExpires: number;
+    group: 'A' | 'B' | 'C' | 'D';
   }
 }
