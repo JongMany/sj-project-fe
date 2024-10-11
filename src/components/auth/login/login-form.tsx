@@ -1,11 +1,9 @@
 'use client';
-// import { signIn } from '@/auth';
 import { useForm } from '@/hooks/common/useForm';
 import { loginFormSchema } from '@/models/auth/login.schema';
 import { showToast } from '@/utils/show-toast';
 import { signIn } from 'next-auth/react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 import React from 'react';
 
 export default function LoginForm() {
@@ -13,7 +11,6 @@ export default function LoginForm() {
     email: '',
     password: '',
   });
-  const router = useRouter();
 
   const loginHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -24,23 +21,7 @@ export default function LoginForm() {
       showToast('error', <>로그인 오류</>);
       return;
     }
-    // fetch('http://localhost:8080/api/auth/login', {
-    //   method: 'POST',
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //   },
-    //   body: JSON.stringify(loginForm),
-    // })
-    //   .then((res) => res.json())
-    //   .then((res) => {
-    //     console.log(res);
-    //     if (res.success) {
-    //       alert('로그인 성공');
-    //       router.replace('/');
-    //     } else {
-    //       alert(res.message);
-    //     }
-    //   });
+
     signIn('credentials', {
       email: loginForm.email,
       password: loginForm.password,

@@ -25,17 +25,16 @@ const decodeJwt = (token: string) => {
 };
 
 const refreshAccessToken = async (token: JWT) => {
-  console.log('Refresh Token:', token.refreshToken);
-
   const response = await fetch('http://localhost:8080/api/auth/refresh', {
     method: 'GET',
     headers: {
       Authorization: `Bearer ${token.refreshToken}`,
+      'Content-Type': 'application/json',
     },
   });
-  const data = await response.json();
-  console.log('data', data);
-  return '';
+  const data: { accessToken: string } = await response.json();
+
+  return data.accessToken;
 };
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
@@ -84,19 +83,13 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     // },
     jwt: async ({ token, user, trigger, session }) => {
       // jwt 생성과 검증을 커스터마이징 + 조작 (useSession, getSession 등을 호출할 때마다 실행된다.)
-      console.log('jwt', token, user);
       if (user) {
         // user가 있다는 것은 -> 첫 로그인일 경우다
         token.accessToken = user.accessToken;
         token.accessTokenExpires = user.accessTokenExpires;
         token.refreshToken = user.refreshToken;
-
-        // return {
-        //   ...user,
-        //   accessToken: token.accessToken,
-        //   accessTokenExpires: token.accessTokenExpires,
-        //   refreshToken: token.refreshToken,
-        // };
+        token.email = user.email;
+        token.name = user.name;
       }
 
       // user가 없다는 것은 -> 이미 로그인한 사용자다
@@ -114,8 +107,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         //   accessTokenExpires: decodedJwt.exp,
         // };
       }
-      const newAccessToken = await refreshAccessToken(token);
-
       // if (trigger === 'update' && session) {
       //   // updateSession 서버액션 호출시 발동
       //   Object.assign(token, session.user);
