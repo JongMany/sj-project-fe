@@ -97,7 +97,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     jwt: async ({ token, user, trigger, session }) => {
       // jwt 생성과 검증을 커스터마이징 + 조작 (useSession, getSession 등을 호출할 때마다 실행된다.)
       if (user) {
-        console.log('user', user);
         // user가 있다는 것은 -> 첫 로그인일 경우다
         token.accessToken = user.accessToken;
         token.accessTokenExpires = user.accessTokenExpires;
@@ -140,8 +139,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       //   session.accessToken = token.accessToken;
       // }
       session.user = token as unknown as AdapterUser;
-      console.log('session', session, 'token', token);
-      // console.log('session', session, 'token', token);
       return session; // 수정된 세션 객체 반환 (useSession으로 접근)
     },
   },
