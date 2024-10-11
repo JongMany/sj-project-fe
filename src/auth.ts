@@ -2,6 +2,7 @@ import NextAuth from 'next-auth';
 import { JWT } from 'next-auth/jwt';
 
 import Credentials from 'next-auth/providers/credentials';
+import { signOut as authSignOut } from 'next-auth/react';
 // https://geuni620.github.io/blog/2024/1/17/authorization/
 // https://velog.io/@dosomething/Next-Auth-%EB%A5%BC-%EC%9D%B4%EC%9A%A9%ED%95%9C-%ED%86%A0%ED%81%B0-%EA%B0%B1%EC%8B%A0-%EB%B0%8F-%EC%9E%90%EB%8F%99-%EB%A1%9C%EA%B7%B8%EC%9D%B8-%EA%B5%AC%ED%98%84-feat.-iron-session
 //https://cdragon.tistory.com/entry/Develog-%EA%B3%A8%EC%B9%98%EC%95%84%ED%94%88-%EB%A1%9C%EA%B7%B8%EC%9D%B8-%EB%B0%8F-%EC%9D%B8%EC%A6%9D-2-%EC%A0%81%EC%9A%A9-Next-authv5Authjs
@@ -25,16 +26,21 @@ const decodeJwt = (token: string) => {
 };
 
 const refreshAccessToken = async (token: JWT) => {
-  const response = await fetch('http://localhost:8080/api/auth/refresh', {
-    method: 'GET',
-    headers: {
-      Authorization: `Bearer ${token.refreshToken}`,
-      'Content-Type': 'application/json',
-    },
-  });
-  const data: { accessToken: string } = await response.json();
+  try {
+    const response = await fetch('http://localhost:8080/api/auth/refresh', {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${token.refreshToken}`,
+        'Content-Type': 'application/json',
+      },
+    });
+    const data: { accessToken: string } = await response.json();
 
-  return data.accessToken;
+    return data.accessToken;
+  } catch (error) {
+    console.error('Error refreshing access token:', error);
+    return null; // 갱신 실패 시 null 반환
+  }
 };
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
@@ -46,41 +52,49 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         password: { label: 'Password', type: 'password' },
       },
       async authorize(credentials) {
-        const response = await fetch('http://localhost:8080/api/auth/login', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(credentials),
-        });
-        const data = await response.json();
+        try {
+          console.log('credentials', credentials);
+          const response = await fetch('http://localhost:8080/api/auth/login', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(credentials),
+          });
+          const data = await response.json();
+          console.log('data', data);
 
-        if (data.success) {
-          const decodedJwt = decodeJwt(data.token.accessToken);
-          return {
-            accessToken: data.token.accessToken,
-            refreshToken: data.token.refreshToken,
-            accessTokenExpires: decodedJwt.exp,
-          };
-        } else {
-          throw new Error('로그인이 실패했습니다.');
+          if (data.success) {
+            const decodedJwt = decodeJwt(data.token.accessToken);
+            return {
+              accessToken: data.token.accessToken,
+              refreshToken: data.token.refreshToken,
+              accessTokenExpires: decodedJwt.exp,
+            };
+          } else {
+            throw new Error('로그인이 실패했습니다.');
+          }
+        } catch (error) {
+          console.error('Error authorizing credentials:', error);
+          return null;
         }
       },
     }),
   ],
   session: {
     strategy: 'jwt',
-    maxAge: 60 * 60 * 24 * 7, // 24 hours
+    maxAge: 60 * 60 * 24 * 7, // 1 week
   },
   pages: {
     signIn: '/login',
     newUser: '/join',
   },
-  secret: process.env.AUTH_SECRET,
+  secret: process.env.NEXTAUTH_SECRET,
   callbacks: {
     // signIn: async () => {
     //   return true;
     // },
+
     jwt: async ({ token, user, trigger, session }) => {
       // jwt 생성과 검증을 커스터마이징 + 조작 (useSession, getSession 등을 호출할 때마다 실행된다.)
       if (user) {
@@ -98,9 +112,13 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
       if (isStaleToken) {
         const newAccessToken = await refreshAccessToken(token);
+        if (!newAccessToken) {
+          authSignOut();
+          return null;
+        }
         const decodedJwt = decodeJwt(newAccessToken);
-        user.accessToken = newAccessToken;
-        user.accessTokenExpires = decodedJwt.exp;
+        token.accessToken = newAccessToken;
+        token.accessTokenExpires = decodedJwt.exp;
         // return {
         //   ...token,
         //   accessToken: newAccessToken,

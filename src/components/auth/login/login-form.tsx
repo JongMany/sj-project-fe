@@ -4,9 +4,11 @@ import { loginFormSchema } from '@/models/auth/login.schema';
 import { showToast } from '@/utils/show-toast';
 import { signIn } from 'next-auth/react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import React from 'react';
 
 export default function LoginForm() {
+  const router = useRouter();
   const { form: loginForm, onChange: onChangeHandler } = useForm({
     email: '',
     password: '',
@@ -22,11 +24,16 @@ export default function LoginForm() {
       return;
     }
 
-    signIn('credentials', {
+    const data = await signIn('credentials', {
       email: loginForm.email,
       password: loginForm.password,
-      redirectTo: '/',
+      redirect: false,
     });
+    if (data && data.error === 'CredentialsSignin') {
+      showToast('error', <>로그인 정보가 정확하지 않습니다.</>);
+    } else if (data && data.error === null) {
+      router.replace('/');
+    }
   };
 
   return (
