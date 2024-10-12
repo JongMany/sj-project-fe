@@ -4,5 +4,6 @@
 
 html,
 body {
+  min-height: 100dvh;
   background-color: white;
 }
