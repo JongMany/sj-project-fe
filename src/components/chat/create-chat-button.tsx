@@ -1,9 +1,11 @@
 'use client';
 
+import { AssistantType } from '@/models/chat/chat-room.dto';
+import { showToast } from '@/utils/show-toast';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 
-export const CreateChatButton = () => {
+export const CreateChatButton = ({ type }: { type: AssistantType }) => {
   const session = useSession();
   const router = useRouter();
 
@@ -16,13 +18,17 @@ export const CreateChatButton = () => {
       },
       body: JSON.stringify({
         email: session.data?.user?.email,
-        type: 'Funny',
+        type: type,
       }),
       credentials: 'include',
     });
+    if (!response.ok) {
+      showToast('error', '채팅방을 만드는데 실패했습니다.');
+      return;
+    }
     const data = await response.json();
     const threadId = data.threadId;
     router.push(`/chat/${threadId}`);
   };
-  return <button onClick={createRoomHandler}>재미맨</button>;
+  return <button onClick={createRoomHandler}>Tap to Chat</button>;
 };

@@ -52,78 +52,63 @@ export default function JoinForm() {
 
   return (
     <form
-      className="flex flex-col max-w-[360px] gap-3 px-8 py-4"
+      className="flex flex-col gap-y-5 text-black"
       onSubmit={onSubmitHandler}
     >
+      <input
+        type="email"
+        placeholder="이메일"
+        name="email"
+        id="email"
+        className="bg-white py-1 border-b-[1px]"
+        value={joinForm.email}
+        onChange={onChangeHandler}
+      />
+      <input
+        type="password"
+        placeholder="비밀번호"
+        id="password"
+        name="password"
+        className="bg-white py-1 border-b-[1px]"
+        onChange={onChangeHandler}
+        value={joinForm.password}
+      />
+      <input
+        type="password"
+        placeholder="비밀번호 확인"
+        id="passwordConfirm"
+        name="passwordConfirm"
+        className="bg-white py-1 border-b-[1px]"
+        onChange={onChangeHandler}
+        value={joinForm.passwordConfirm}
+      />
+      <input
+        type="text"
+        placeholder="이름"
+        id="name"
+        name="name"
+        className="bg-white py-1 border-b-[1px]"
+        onChange={onChangeHandler}
+        value={joinForm.name}
+      />
+      <input
+        type="tel"
+        placeholder="전화번호(- 제외)"
+        id="phoneNumber"
+        name="phoneNumber"
+        className="bg-white py-1 border-b-[1px]"
+        onChange={onChangeHandler}
+        value={joinForm.phoneNumber}
+      />
       <div>
-        <label className="w-[100px] inline-block" htmlFor="email">
-          이메일
-        </label>
-        <input
-          type="email"
-          placeholder="이메일"
-          name="email"
-          id="email"
-          value={joinForm.email}
-          onChange={onChangeHandler}
-        />
-      </div>
-      <div>
-        <label className="w-[100px] inline-block" htmlFor="password">
-          비밀번호
-        </label>
-        <input
-          type="password"
-          placeholder="비밀번호"
-          id="password"
-          name="password"
-          onChange={onChangeHandler}
-          value={joinForm.password}
-        />
-      </div>
-      <div>
-        <label className="w-[100px] inline-block" htmlFor="passwordConfirm">
-          비밀번호 확인
-        </label>
-        <input
-          type="password"
-          placeholder="비밀번호 확인"
-          id="passwordConfirm"
-          name="passwordConfirm"
-          onChange={onChangeHandler}
-          value={joinForm.passwordConfirm}
-        />
-      </div>
-      <div>
-        <label className="w-[100px] inline-block" htmlFor="name">
-          이름
-        </label>
-        <input
-          type="text"
-          placeholder="이름"
-          id="name"
-          name="name"
-          onChange={onChangeHandler}
-          value={joinForm.name}
-        />
-      </div>
-      <div>
-        <label className="w-[100px] inline-block" htmlFor="phoneNumber">
-          전화번호
-        </label>
-        <input
-          type="tel"
-          placeholder="전화번호(- 제외)"
-          id="phoneNumber"
-          name="phoneNumber"
-          onChange={onChangeHandler}
-          value={joinForm.phoneNumber}
-        />
-      </div>
-      <div>
-        <div className="w-[100px] inline-block">그룹</div>
-        <div className="flex gap-3">
-          <div>
+        <div className="w-[100px] inline-block text-black font-semibold">
+          그룹
+        </div>
+        <span className="text-[10px] block text-gray-400 mb-2">
+          진행자가 지정한 그룹에 맞게 선택해주세요. 그룹은 변경이 불가능합니다.
+        </span>
+        <div className="flex gap-3 justify-between">
+          <div className="flex gap-x-2">
             <input
               type="radio"
               id="A"
@@ -134,7 +119,7 @@ export default function JoinForm() {
             />
             <label htmlFor="A">A</label>
           </div>
-          <div>
+          <div className="flex gap-x-2">
             <input
               type="radio"
               id="B"
@@ -145,7 +130,7 @@ export default function JoinForm() {
             />
             <label htmlFor="B">B</label>
           </div>
-          <div>
+          <div className="flex gap-x-2">
             <input
               type="radio"
               id="C"
@@ -157,7 +142,7 @@ export default function JoinForm() {
 
             <label htmlFor="C">C</label>
           </div>
-          <div>
+          <div className="flex gap-x-2">
             <input
               type="radio"
               id="D"
@@ -170,11 +155,13 @@ export default function JoinForm() {
           </div>
         </div>
       </div>
-      <div className="flex justify-center gap-x-8">
-        <button type="submit">회원가입</button>
-        <Link href="/login" replace>
-          로그인으로
-        </Link>
+      <div className="mt-3">
+        <button
+          type="submit"
+          className="bg-blue-500 text-white py-2 rounded-md w-full"
+        >
+          회원가입
+        </button>
       </div>
     </form>
   );

@@ -37,15 +37,13 @@ export default function LoginForm() {
   };
 
   return (
-    <form
-      className="flex flex-col max-w-[400px] gap-3 px-8 py-4"
-      onSubmit={loginHandler}
-    >
+    <form className="flex flex-col gap-y-5 text-black" onSubmit={loginHandler}>
       <input
         type="email"
         placeholder="이메일"
         id="email"
         name="email"
+        className="bg-white py-1 border-b-[1px]"
         onChange={onChangeHandler}
         value={loginForm.email}
       />
@@ -54,12 +52,20 @@ export default function LoginForm() {
         placeholder="비밀번호"
         id="password"
         name="password"
+        className="bg-white py-1 border-b-[1px]"
         onChange={onChangeHandler}
         value={loginForm.password}
       />
-      <div className="flex justify-between">
-        <button type="submit">로그인</button>
-        <Link href="/join">회원가입으로</Link>
+      <div className="flex flex-col mt-4 gap-y-5">
+        <button
+          type="submit"
+          className="bg-blue-500 text-white py-2 rounded-md"
+        >
+          로그인
+        </button>
+        <Link href="/join" className="mx-auto text-black">
+          회원가입
+        </Link>
       </div>
     </form>
   );

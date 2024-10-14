@@ -1,4 +1,5 @@
 import { auth } from '@/auth';
+import { CHATROOM_TYPE } from '@/constants/chat/room-type';
 import { ChatRoomDto } from '@/models/chat/chat-room.dto';
 import Link from 'next/link';
 
@@ -20,6 +21,7 @@ export const ChatRoomList = async () => {
     }
   }
   const chatRooms = (await fetchData()) || [];
+  console.log(chatRooms);
 
   return (
     <main className="grid grid-cols-2 px-2 py-2 bg-white gap-x-10">
@@ -30,7 +32,7 @@ export const ChatRoomList = async () => {
           className="rounded-md border border-gray-200"
         >
           <div className="h-[60px] flex items-center justify-center">
-            <p>{room.type}</p>
+            <p>{CHATROOM_TYPE[room.type]}</p>
           </div>
         </Link>
       ))}
