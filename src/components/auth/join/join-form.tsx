@@ -2,7 +2,6 @@
 import { useForm } from '@/hooks/common/useForm';
 import { joinFormSchema } from '@/models/auth/join.schema';
 import { showToast } from '@/utils/show-toast';
-import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
 export default function JoinForm() {

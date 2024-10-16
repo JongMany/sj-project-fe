@@ -71,7 +71,7 @@ function ChatForm({ threadId }: Props) {
           <div
             key={message.id}
             className={`chat ${
-              message.role === 'user' ? 'chat-start' : 'chat-end'
+              message.role === 'user' ? 'chat-end' : 'chat-start'
             }`}
           >
             <div className="chat-bubble">

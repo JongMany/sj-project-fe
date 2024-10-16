@@ -5,11 +5,11 @@ function Page() {
   return (
     <div className="bg-white px-8 py-6">
       <section className="mb-8 flex justify-center">
-        <CreateChatButton type="Kind" />
+        <CreateChatButton type="Default" />
       </section>
       <section className="bg-gray-100 px-5 py-4 text-black text-[16px] rounded-md">
-        <h4 className="mb-5 font-semibold">친절맨</h4>
-        <p>추가할 예정</p>
+        <h4 className="mb-5 font-semibold">기본맨</h4>
+        <p>AI Assistant와 대화를 나눠보세요</p>
       </section>
     </div>
   );

@@ -1,5 +1,6 @@
 import { auth } from '@/auth';
-import { getSession } from 'next-auth/react';
+import { userType } from '@/constants/user/user-type';
+// import { getSession } from 'next-auth/react';
 import { NextResponse } from 'next/server';
 import { NextRequest } from 'next/server';
 import { match } from 'path-to-regexp';
@@ -14,9 +15,25 @@ const matchersForAuth: string[] = ['/', '/chat'];
 
 const matchersForSignIn = ['/login', '/join'];
 
+const matchersForCheckUserType = ['/chat/create'];
+
 // 미들웨어로 인증 상태 확인
 export async function middleware(request: NextRequest) {
   const session = await auth();
+
+  // 사용자 타입 확인
+  if (isMatch(request.nextUrl.pathname, matchersForCheckUserType)) {
+    if (!session) {
+      return NextResponse.redirect(new URL('/login', request.url));
+    }
+    const group = session.user?.group as keyof typeof userType;
+
+    if (userType[group].canSelect) {
+      return NextResponse.next();
+    } else {
+      return NextResponse.redirect(new URL('/chat/general', request.url));
+    }
+  }
 
   // 인증이 필요한 페이지 접근 제어
   if (isMatch(request.nextUrl.pathname, matchersForAuth)) {
@@ -37,5 +54,10 @@ export async function middleware(request: NextRequest) {
 
 // 미들웨어 적용 경로
 export const config = {
-  matcher: [...matchersForAuth, ...matchersForSignIn],
+  // matcher: [...matchersForAuth, ...matchersForSignIn],
+  '/': true,
+  '/login': true,
+  '/join': true,
+  '/chat': true,
+  '/chat/create': true,
 };

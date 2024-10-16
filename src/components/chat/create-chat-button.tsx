@@ -30,5 +30,12 @@ export const CreateChatButton = ({ type }: { type: AssistantType }) => {
     const threadId = data.threadId;
     router.push(`/chat/${threadId}`);
   };
-  return <button onClick={createRoomHandler}>Tap to Chat</button>;
+  return (
+    <button
+      onClick={createRoomHandler}
+      className="text-white bg-blue-500 w-[200px] h-[200px] rounded-full shadow-2xl shadow-black/80 text-[20px] tracking-widest"
+    >
+      Tap to Chat
+    </button>
+  );
 };

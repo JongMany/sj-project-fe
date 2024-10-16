@@ -28,7 +28,7 @@ export const ChatRoomList = async () => {
       {chatRooms?.map((room) => (
         <Link
           key={room.threadId}
-          href={`/chat/${room.threadId}`}
+          href={`/chat/${room.threadId}?type=${room.type}`}
           className="rounded-md border border-gray-200"
         >
           <div className="h-[60px] flex items-center justify-center">
