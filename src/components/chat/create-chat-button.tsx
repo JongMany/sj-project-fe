@@ -4,6 +4,8 @@ import { AssistantType } from '@/models/chat/chat-room.dto';
 import { showToast } from '@/utils/show-toast';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
+import {encodeByAES256} from "@/utils/encode";
+
 
 export const CreateChatButton = ({ type }: { type: AssistantType }) => {
   const session = useSession();
@@ -28,7 +30,8 @@ export const CreateChatButton = ({ type }: { type: AssistantType }) => {
     }
     const data = await response.json();
     const threadId = data.threadId;
-    router.push(`/chat/${threadId}`);
+    const cipherThreadId = encodeByAES256(threadId);
+    router.push(`/chat/${cipherThreadId}?type=${type}`);
   };
   return (
     <button

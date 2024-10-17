@@ -18,3 +18,15 @@ export type ChatMessage = {
     type: 'text';
   }[];
 };
+
+export type MessageContent = {
+  id: string;
+  role: 'assistant' | 'user';
+  content: {
+    text: {
+      value: string;
+      annotations: { [key: string]: string }[];
+    };
+    type: 'text';
+  }[];
+};

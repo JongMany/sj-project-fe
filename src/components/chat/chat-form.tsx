@@ -1,15 +1,43 @@
 'use client';
 
-import { ChatMessage, ChatMessageDto } from '@/models/chat/message.dto';
+import {
+  ChatMessage,
+  ChatMessageDto,
+  MessageContent,
+} from '@/models/chat/message.dto';
+import { showToast } from '@/utils/show-toast';
 import { getSession } from 'next-auth/react';
-import React, { ChangeEvent, useEffect, useState } from 'react';
+import { useSearchParams } from 'next/navigation';
+import React, { ChangeEvent, useEffect, useRef, useState } from 'react';
+import { FaRegStopCircle } from 'react-icons/fa';
+import { IoMdSend } from 'react-icons/io';
+import {BeatLoader} from "react-spinners";
 
 type Props = {
   threadId: string;
 };
 function ChatForm({ threadId }: Props) {
-  const [response, setResponse] = useState<ChatMessage[]>([]);
+  const searchParams = useSearchParams();
+  const type = searchParams.get('type');
+  const [response, setResponse] = useState<MessageContent[]>([]);
   const [value, setValue] = useState('');
+  const [sendStatus, setIsSendStatus] = useState<'idle' | 'sending' | 'error'>(
+    'idle',
+  );
+
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+  // 스크롤을 맨 아래로 이동시키는 함수
+  const scrollToBottom = () => {
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  useEffect(() => {
+    if (response.length > 0) {
+      scrollToBottom();
+    }
+  }, [response]);
 
   useEffect(() => {
     async function fetchData() {
@@ -25,10 +53,19 @@ function ChatForm({ threadId }: Props) {
         },
       );
       const data: ChatMessageDto = await response.json();
-      setResponse(data.messages);
+      if (Array.isArray(data.messages)) {
+        const messages: MessageContent[] = data.messages.map(
+          (message: ChatMessage) => ({
+            id: message.id,
+            role: message.role,
+            content: message.content,
+          }),
+        );
+        setResponse(messages);
+      }
     }
     fetchData();
-  }, []);
+  }, [threadId]);
 
   const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value);
@@ -41,55 +78,99 @@ function ChatForm({ threadId }: Props) {
   };
 
   const submitHandler = async () => {
-    console.log(value);
-    /* const response = await fetch('http://localhost:8080/api/gpt/message', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        message: value,
-        threadId: '1',
-      }),
-    }); */
+    try {
+      setIsSendStatus('sending');
+      setResponse((prev) => [
+        ...prev,
+        {
+          id: Date.now().toString(),
+          role: 'user',
+          content: [{ text: { value: value, annotations: [] }, type: 'text' }],
+        },
+      ]);
+      const response = await fetch('http://localhost:8080/api/gpt/message', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          message: value,
+          threadId: threadId,
+          type,
+        }),
+      });
+      if (!response.ok) {
+        setIsSendStatus('error');
+        showToast('error', '메시지 전송에 실패했습니다.');
+        return;
+      }
+      const data = await response.json();
+      const answer = data.messages[0][0];
+
+      setResponse((prev) => [
+        ...prev,
+        {
+          id: Date.now().toString(),
+          role: 'assistant',
+          content: [answer],
+        },
+      ]);
+    } catch (error) {
+      setIsSendStatus('error');
+      showToast('error', '메시지 전송에 실패했습니다.');
+      console.error(error);
+    } finally {
+      setValue('');
+      setIsSendStatus('idle');
+    }
   };
 
+  // useEffect(() => {}, []);
+
   return (
-    <div className="px-4 py-2 flex flex-col h-full rounded">
-      <div className="overflow-y-scroll flex-1 h-full px-4">
-        {/* <div className={'chat chat-start'}>
-          <div className="chat-bubble">
-            <p>메시지 1</p>
-          </div>
-        </div>
-        <div className={'chat chat-end'}>
-          <div className="chat-bubble">
-            <p>메시지 2입니당~~</p>
-          </div>
-        </div> */}
+    <div className="px-4 py-2 flex flex-col min-h-[calc(100dvh-80px)] h-[calc(100dvh-80px)] bg-gray-200">
+      <div className="overflow-y-scroll px-4 h-full ">
         {response.map((message) => (
           <div
             key={message.id}
             className={`chat ${
               message.role === 'user' ? 'chat-end' : 'chat-start'
-            }`}
+            } mb-2`}
           >
-            <div className="chat-bubble">
-              <p>{message.content[0].text.value}</p>
+            <div className="chat-bubble bg-white text-black flex items-center text-[13px] shadow-lg">
+               <p className="leading-5">{message.content[0].text.value}</p>
             </div>
           </div>
         ))}
+        {sendStatus === 'sending' && (
+          <div className="chat chat-start">
+            <div className="chat-bubble bg-white text-black flex items-center shadow-lg">
+              <p>
+                <BeatLoader size={6} color='lightgray'  />
+              </p>
+            </div>
+          </div>
+        )}
+        <div ref={messagesEndRef} />
       </div>
-      <div className="rounded-md">
-        <div className="m-4">
+      <div className="m-4">
+        <div className="flex gap-x-2 rounded-md py-1 w-full input bg-white border-gray-300 shadow-[0_35px_60px_-5px_rgba(0,0,0,0.5)]">
           <input
             type="text"
+            disabled={sendStatus !== 'idle'}
             value={value}
             onChange={onChangeHandler}
             onKeyDown={keyPressHandler}
-            className="rounded-md py-1 px-2 w-full input "
+            className="flex-1 text-black"
             placeholder="Message"
           />
+          <button disabled={sendStatus !== 'idle'}>
+            {sendStatus === 'sending' ? (
+              <FaRegStopCircle />
+            ) : (
+              <IoMdSend className="text-[20px]" />
+            )}
+          </button>
         </div>
       </div>
     </div>
