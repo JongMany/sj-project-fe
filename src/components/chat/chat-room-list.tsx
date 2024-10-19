@@ -33,7 +33,7 @@ export const ChatRoomList = () => {
   }, []);
 
   return (
-    <main className="grid grid-cols-2 px-2 py-2 bg-white gap-x-10">
+    <main className="grid grid-cols-2 px-2 py-2 bg-white gap-x-10 gap-y-5">
       {chatRooms?.map((room) => {
         const threadId = room.threadId;
         const cipherThreadId = encodeByAES256(threadId);
@@ -41,7 +41,7 @@ export const ChatRoomList = () => {
           <Link
             key={cipherThreadId}
             href={`/chat/${cipherThreadId}?type=${room.type}`}
-            className="rounded-md border border-gray-200"
+            className="rounded-md border bg-gray-200 text-gray-700"
           >
             <div className="h-[60px] flex items-center justify-center">
               <p>{CHATROOM_TYPE[room.type]}</p>

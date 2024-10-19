@@ -29,7 +29,7 @@ export default async function ChatRoomPage({
         <span className={"px-4 text-black"}>Type: {type}</span>
         {
           userType[userGroup].removeMemory && (
-              <Link href="/chat/setting">
+              <Link href={`/chat/setting/${id}?type=${type}`}>
                 <FaBrain />
               </Link>
             )

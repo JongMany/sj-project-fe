@@ -8,7 +8,7 @@ function Page() {
       <section className="mb-8 flex justify-center">
         <CreateChatButton type="Kind" />
       </section>
-      <ChatTypeIntroduction title="친절맨" introduction={<p>설명 추가 예정</p>}/>
+      <ChatTypeIntroduction type="Kind" introduction={<p>설명 추가 예정</p>}/>
     </div>
   );
 }
