@@ -71,9 +71,9 @@ function ChatForm({ threadId }: Props) {
     setValue(e.target.value);
   };
 
-  const keyPressHandler = (e: React.KeyboardEvent<HTMLInputElement>) => {
+  const keyPressHandler = async (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
-      submitHandler();
+      await submitHandler();
     }
   };
 

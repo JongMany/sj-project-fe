@@ -1,5 +1,6 @@
 import { CreateChatButton } from '@/components/chat/create-chat-button';
 import React from 'react';
+import {ChatTypeIntroduction} from "@/components/chat/chat-type-introduction";
 
 function Page() {
   return (
@@ -7,10 +8,7 @@ function Page() {
       <section className="mb-8 flex justify-center">
         <CreateChatButton type="Kind" />
       </section>
-      <section className="bg-gray-100 px-5 py-4 text-black text-[16px] rounded-md">
-        <h4 className="mb-5 font-semibold">친절맨</h4>
-        <p>추가할 예정</p>
-      </section>
+      <ChatTypeIntroduction title="친절맨" introduction={<p>설명 추가 예정</p>}/>
     </div>
   );
 }

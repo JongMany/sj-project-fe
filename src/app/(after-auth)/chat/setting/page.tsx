@@ -2,7 +2,10 @@ import React from 'react';
 
 function Page() {
   return (
-      <div>Setting</div>
+      <div className="bg-white">
+        <h1>Setting</h1>
+        
+      </div>
   );
 }
 
