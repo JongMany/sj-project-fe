@@ -154,14 +154,14 @@ function ChatForm({ threadId }: Props) {
         <div ref={messagesEndRef} />
       </div>
       <div className="m-4">
-        <div className="flex gap-x-2 rounded-md py-1 w-full input bg-white border-gray-300 shadow-[0_35px_60px_-5px_rgba(0,0,0,0.5)]">
+        <div className="flex gap-x-2 rounded-md py-1 w-full input !bg-white !border-gray-300 shadow-[0_35px_60px_-5px_rgba(0,0,0,0.5)] !text-black">
           <input
             type="text"
             disabled={sendStatus !== 'idle'}
-            value={value}
+            value={sendStatus === "sending" ? "" : value}
             onChange={onChangeHandler}
             onKeyDown={keyPressHandler}
-            className="flex-1 text-black"
+            className="flex-1 text-black disabled:text-black disabled:bg-white"
             placeholder="Message"
           />
           <button disabled={sendStatus !== 'idle'}>

@@ -17,7 +17,7 @@ async function Page() {
         <p>
           {session?.user?.group &&
             userType[session?.user?.group].removeMemory && (
-              <Link href="/setting">GPT 기억 수정하기</Link>
+              <Link href="/chat/setting">GPT 기억 수정하기</Link>
             )}
           <span>AI Assistant와 대화를 나눠보세요</span>
         </p>

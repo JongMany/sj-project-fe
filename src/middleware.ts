@@ -11,7 +11,7 @@ function isMatch(pathname: string, urls: string[]) {
 }
 
 // 인증이 필요한 경로
-const matchersForAuth: string[] = ['/', '/chat'];
+const matchersForAuth: string[] = ['/', '/chat', '/chat/general'];
 
 const matchersForSignIn = ['/login', '/join'];
 
@@ -60,4 +60,5 @@ export const config = {
   '/join': true,
   '/chat': true,
   '/chat/create': true,
+  '/chat/*': true,
 };
