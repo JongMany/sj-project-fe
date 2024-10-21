@@ -103,8 +103,8 @@ jobs:
       - name: Pull image from Amazon ECR and restart Docker Container
         run: |
           docker pull ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:${{ env.IMAGE_TAG }}
-          docker stop study-log-client || true && docker rm study-log-client || true
-          docker run -d --name study-log-client -p 3000:3000 --restart unless-stopped \
+          docker stop sj-graduate-client || true && docker rm sj-graduate-client || true
+          docker run -d --name sj-graduate-client -p 3000:3000 --restart unless-stopped \
             --env-file .env.production \
             ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:${{ env.IMAGE_TAG }}
 #            --env-file .env.production \
