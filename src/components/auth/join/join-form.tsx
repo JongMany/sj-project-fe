@@ -17,6 +17,8 @@ export default function JoinForm() {
 
   const onSubmitHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    console.log(process.env.NEXT_PUBLIC_API_URL, process.env);
+
 
     // Validation
     const validationResult = joinFormSchema.safeParse(joinForm);
@@ -28,6 +30,7 @@ export default function JoinForm() {
     }
 
     // Register Fetch
+
 
     fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/auth/register`, {
       method: 'POST',
