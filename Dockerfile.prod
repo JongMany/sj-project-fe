@@ -41,7 +41,7 @@ RUN npm install --production
 
 # 빌드된 파일만 복사
 COPY --from=client-build /app/.next ./.next
-COPY --from=client-build /app/public ./public
+# COPY --from=client-build /app/public ./public
 COPY --from=client-build /app/next.config.mjs ./next.config.mjs
 COPY --from=client-build /app/package.json ./package.json
 
