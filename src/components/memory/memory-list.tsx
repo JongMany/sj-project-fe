@@ -9,7 +9,7 @@ async function MemoryList({
                             threadId
                           }: Props) {
   const session = await auth();
-  const memories = await fetch(`http://localhost:8080/api/memory/${threadId}`, {
+  const memories = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/memory/${threadId}`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',

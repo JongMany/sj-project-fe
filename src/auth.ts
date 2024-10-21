@@ -28,7 +28,7 @@ const decodeJwt = (token: string) => {
 
 const refreshAccessToken = async (token: JWT) => {
   try {
-    const response = await fetch('http://localhost:8080/api/auth/refresh', {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/refresh`, {
       method: 'GET',
       headers: {
         Authorization: `Bearer ${token.refreshToken}`,
@@ -54,7 +54,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       },
       async authorize(credentials) {
         try {
-          const response = await fetch('http://localhost:8080/api/auth/login', {
+          const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/login`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',

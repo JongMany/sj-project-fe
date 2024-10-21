@@ -29,7 +29,7 @@ export default function JoinForm() {
 
     // Register Fetch
 
-    fetch('http://localhost:8080/api/auth/register', {
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/register`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
