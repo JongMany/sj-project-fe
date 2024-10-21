@@ -8,7 +8,7 @@ WORKDIR /app
 COPY package*.json ./
 
 # 빌드 시점 환경변수 정의
-ARG NEXT_PUBLIC_BASE_URL
+ARG NEXT_PUBLIC_API_URL
 
 # Next.js 종속성 설치
 RUN npm install
