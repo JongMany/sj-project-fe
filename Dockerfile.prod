@@ -24,7 +24,7 @@ COPY . .
 # COPY config/$ENV_FILE .env
 
 # 환경변수를 설정하여 빌드 시점에 적용
-ENV NEXT_PUBLIC_BASE_URL=$NEXT_PUBLIC_BASE_URL
+ENV NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL
 
 # Next.js 애플리케이션 빌드
 RUN npm run build:prod
