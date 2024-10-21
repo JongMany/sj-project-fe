@@ -94,7 +94,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   },
   secret: process.env.NEXTAUTH_SECRET,
   callbacks: {
-    jwt: async ({ token, user, trigger, session }) => {
+    jwt: async ({ token, user }) => {
       // jwt 생성과 검증을 커스터마이징 + 조작 (useSession, getSession 등을 호출할 때마다 실행된다.)
       if (user) {
         // user가 있다는 것은 -> 첫 로그인일 경우다

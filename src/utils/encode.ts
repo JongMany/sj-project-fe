@@ -63,6 +63,6 @@ export function decodeByAES256(data: string) {
     // 복호화 결과를 UTF-8로 변환
     return decrypted.toString(CryptoJS.enc.Utf8);
   } catch (error) {
-    throw new Error('Decryption failed');
+    throw new Error('Decryption failed', error);
   }
 }

@@ -32,7 +32,7 @@ async function MemoryList({
 
   return (
       <div className="overflow-scroll h-[80dvh] bg-gray-100 rounded-md">
-        {memories.map((memory) => <div>
+        {memories.map((memory) => <div key={JSON.stringify(memory)}>
           {JSON.stringify(memory.data)}
         </div>)}
       </div>
