@@ -94,9 +94,11 @@ jobs:
 #          echo NEXT_PUBLIC_THREAD_KEY = "${{ secrets.NEXT_PUBLIC_THREAD_KEY }}" >> config/.env.production
 
       - name: Set permissions for .env.production file
-        run: chmod 600 config/.env.production
+#        run: chmod 600 config/.env.production
+        run: chmod 600 .env.production
       - name: Verify .env file contents
-        run: cat config/.env.production
+#        run: cat config/.env.production
+        run: cat .env.production
 
       - name: Pull image from Amazon ECR and restart Docker Container
         run: |
