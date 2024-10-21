@@ -1,6 +1,6 @@
 "use client";
 import { CHATROOM_TYPE } from '@/constants/chat/room-type';
-import { ChatRoomDto } from '@/models/chat/chat-room.dto';
+import {ChatRoomDetail, ChatRoomDto} from '@/models/chat/chat-room.dto';
 import { encodeByAES256 } from '@/utils/encode';
 
 import Link from 'next/link';
@@ -8,7 +8,7 @@ import {useEffect, useState} from "react";
 import {getSession} from "next-auth/react";
 
 export const ChatRoomList = () => {
-  const [chatRooms, setChatRooms] = useState([]);
+  const [chatRooms, setChatRooms] = useState<ChatRoomDetail[]>([]);
 
 
   useEffect(()=>{

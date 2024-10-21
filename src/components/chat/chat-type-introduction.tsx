@@ -15,7 +15,8 @@ type Props = {
 }
 export async function ChatTypeIntroduction({type, introduction}: Props) {
   const session = await auth();
-  const userGroup = session?.user.group as "A" | "B" | "C" | "D";
+
+  const userGroup = session?.user?.group as "A" | "B" | "C" | "D";
   const threadId = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/gpt/thread/${type}`, {
     method: 'GET',
     headers: {
