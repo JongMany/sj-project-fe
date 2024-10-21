@@ -20,12 +20,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Config AWS credentials
-        uses: aws-actions/configure-aws-credentials@v2
+      - name: Config AWS credentials # AWS 자격 증명을 구성하는 단계
+        uses: aws-actions/configure-aws-credentials@v2 # AWS 자격 증명 구성 액션 사용
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ env.AWS_REGION }}
+          aws-access-key-id: ${{ secrets.AWS_IAM_ACCESS }} # GitHub Secrets에 저장된 AWS 액세스 키 ID 사용
+          aws-secret-access-key: ${{ secrets.AWS_IAM_SECRET }} # GitHub Secrets에 저장된 AWS 시크릿 액세스 키 사용
+          aws-region: ${{ env.AWS_REGION }} # 위에서 정의한 AWS 리전 사용
 
       - name: Login To Amazon ECR
         id: login-ecr
