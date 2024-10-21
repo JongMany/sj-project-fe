@@ -88,7 +88,7 @@ function ChatForm({ threadId }: Props) {
           content: [{ text: { value: value, annotations: [] }, type: 'text' }],
         },
       ]);
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/gpt/message`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/gpt/message`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

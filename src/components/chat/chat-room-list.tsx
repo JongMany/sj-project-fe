@@ -16,7 +16,7 @@ export const ChatRoomList = () => {
       try {
         const session = await getSession();
         console.log('session', session)
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/gpt/threads`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/gpt/threads`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',

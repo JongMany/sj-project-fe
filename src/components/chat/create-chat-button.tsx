@@ -12,7 +12,7 @@ export const CreateChatButton = ({ type }: { type: AssistantType }) => {
   const router = useRouter();
 
   const createRoomHandler = async () => {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/gpt/thread`, {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/gpt/thread`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
