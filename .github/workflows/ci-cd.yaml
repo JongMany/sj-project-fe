@@ -88,6 +88,7 @@ jobs:
           echo NEXTAUTH_URL="${{ secrets.NEXTAUTH_URL }}" >> .env.production          
           echo NEXT_PUBLIC_API_URL="${{ secrets.NEXT_PUBLIC_API_URL }}" >> .env.production          
           echo NEXT_PUBLIC_THREAD_KEY = "${{ secrets.NEXT_PUBLIC_THREAD_KEY }}" >> .env.production
+          cat .env.production
 #          echo NEXTAUTH_SECRET="${{ secrets.NEXTAUTH_SECRET }}" >> config/.env.production
 #          echo NEXTAUTH_URL="${{ secrets.NEXTAUTH_URL }}" >> config/.env.production
 #          echo NEXT_PUBLIC_API_URL="${{ secrets.NEXT_PUBLIC_API_URL }}" >> config/.env.production
