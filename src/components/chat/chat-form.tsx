@@ -43,7 +43,7 @@ function ChatForm({ threadId }: Props) {
     async function fetchData() {
       const session = await getSession();
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL||''}/api/gpt/messages/${threadId}`,
+        `${process.env.NEXT_PUBLIC_API_URL}/api/v1/gpt/messages/${threadId}`,
         {
           method: 'GET',
           headers: {
