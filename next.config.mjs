@@ -5,7 +5,7 @@ import path from 'path';
 const env = process.env.NODE_ENV || 'development';
 // 해당하는 .env 파일 경로를 설정합니다.
 const envFilePath = path.resolve(`./.env.${env}`);
-
+// TODO: env(NEXT_PUBLIC_API_URL)가 null인 이유를 파악하기
 dotenv.config({ path: envFilePath });
 
 const nextConfig = {};

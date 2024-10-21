@@ -10,7 +10,7 @@ async function MemoryList({
                           }: Props) {
   const session = await auth();
   // TODO: Type!
-  const memories: {data: Record<string, string>}[] = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/memory/${threadId}`, {
+  const memories: {data: Record<string, string>}[] = await fetch(`${process.env.NEXT_PUBLIC_API_URL||''}/api/v1/memory/${threadId}`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',

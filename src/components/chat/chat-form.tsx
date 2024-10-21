@@ -43,7 +43,7 @@ function ChatForm({ threadId }: Props) {
     async function fetchData() {
       const session = await getSession();
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/gpt/messages/${threadId}`,
+        `${process.env.NEXT_PUBLIC_API_URL||''}/api/gpt/messages/${threadId}`,
         {
           method: 'GET',
           headers: {
@@ -88,7 +88,7 @@ function ChatForm({ threadId }: Props) {
           content: [{ text: { value: value, annotations: [] }, type: 'text' }],
         },
       ]);
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/gpt/message`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || ''}/api/v1/gpt/message`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
