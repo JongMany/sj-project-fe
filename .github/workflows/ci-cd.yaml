@@ -81,13 +81,15 @@ jobs:
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
 
+      - name: Remove any existing .env.production file
+        run: rm -f .env.production
       - name: Create .env.production file in config directory
         run: |
-          mkdir -p config
           echo NEXTAUTH_SECRET="${{ secrets.NEXTAUTH_SECRET }}" >> .env.production          
           echo NEXTAUTH_URL="${{ secrets.NEXTAUTH_URL }}" >> .env.production          
           echo NEXT_PUBLIC_API_URL="${{ secrets.NEXT_PUBLIC_API_URL }}" >> .env.production          
           echo NEXT_PUBLIC_THREAD_KEY="${{ secrets.NEXT_PUBLIC_THREAD_KEY }}" >> .env.production
+#          mkdir -p config
 #          echo NEXTAUTH_SECRET="${{ secrets.NEXTAUTH_SECRET }}" >> config/.env.production
 #          echo NEXTAUTH_URL="${{ secrets.NEXTAUTH_URL }}" >> config/.env.production
 #          echo NEXT_PUBLIC_API_URL="${{ secrets.NEXT_PUBLIC_API_URL }}" >> config/.env.production
