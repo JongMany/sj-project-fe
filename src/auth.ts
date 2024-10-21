@@ -93,7 +93,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     signIn: '/login',
     newUser: '/join',
   },
-  secret: process.env.NEXTAUTH_SECRET,
+  secret: process.env.NEXTAUTH_SECRET || '35reT6XanpyOKx7R3VI+FTnsS3GG6uhXTzYo9sT1KGk=',
   callbacks: {
     jwt: async ({ token, user }) => {
       // jwt 생성과 검증을 커스터마이징 + 조작 (useSession, getSession 등을 호출할 때마다 실행된다.)
