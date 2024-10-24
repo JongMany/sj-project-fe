@@ -5,6 +5,7 @@ import {MdDelete, MdModeEdit} from "react-icons/md";
 import {MemoryType} from "@/app/(after-auth)/chat/setting/[id]/page";
 import {Modal} from "antd";
 import {useSession} from "next-auth/react";
+import {showToast} from "@/utils/show-toast";
 
 const {confirm} = Modal;
 
@@ -26,6 +27,7 @@ const title = {
 function MemoryList({
                       memories
                     }: Props) {
+  const [memoryList, setMemoryList] = useState(memories);
   const [isShowModal, setIsShowModal] = useState(false);
   const session = useSession();
 
@@ -34,14 +36,29 @@ function MemoryList({
   }
 
   const deleteMemory = async (memoryId: string) => {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL||''}/api/v1/memory/${memoryId}`, {
-      method: 'Delete',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${session.data?.user?.accessToken}`,
-      },
-      credentials: 'include',
-    });
+    try{
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL||''}/api/v1/memory/${memoryId}`, {
+        method: 'Delete',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${session.data?.user?.accessToken}`,
+        },
+        credentials: 'include',
+      });
+      if(!response.ok) {
+        throw new Error("error");
+      }
+      const data = await response.json();
+      console.log(data);
+      if(data.success) {
+        setMemoryList(data.memories);
+      }
+    } catch (error) {
+      console.error("error", error);
+      showToast("error", "삭제가 실패했습니다.");
+      setMemoryList(memoryList);
+    }
+
   }
 
   const showEditConfirm = () => {
@@ -62,7 +79,8 @@ function MemoryList({
         삭제한 후에는 변경할 수 없습니다.
       </>,
       onOk: async ()=>{
-        await deleteMemory(memoryId)
+        const memories = await deleteMemory(memoryId);
+        // setMemoryList(memories);
       },
       onCancel: closeModal
     });
@@ -71,7 +89,7 @@ function MemoryList({
   return (
       <>
         <div className="overflow-scroll h-[80dvh] bg-gray-100 rounded-md text-black flex-1 px-4 py-4">
-          {memories.map((memory) => <div key={memory.id} className="flex items-center justify-between">
+          {memoryList.map((memory) => <div key={memory.id} className="flex items-center justify-between">
             <div className="flex gap-x-2 items-center">
               <span className="w-[50px] font-semibold text-[16px]">{title[memory.type]}</span>
               <span>{memory.description}</span>
