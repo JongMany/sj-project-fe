@@ -1,52 +1,95 @@
-import React from 'react';
-import {auth} from "@/auth";
+"use client";
+
+import React, {useState} from 'react';
+import {MdDelete, MdModeEdit} from "react-icons/md";
+import {MemoryType} from "@/app/(after-auth)/chat/setting/[id]/page";
+import {Modal} from "antd";
+import {useSession} from "next-auth/react";
+
+const {confirm} = Modal;
 
 type Props = {
-  threadId: string;
+  memories: MemoryType[]
 }
 
-type MemoryType = {
-  id: string;
-  userId: string;
-  type: 'age' | 'favorite_color' | 'favorite_food' | 'hobby' | 'things_to_do' | 'things_done' | 'things_to_do_later';
-  description: string;
+
+const title = {
+  'things_to_do': '한 일',
+  'things_done': '했던 일',
+  'things_to_do_later': '할 일',
+  'age': '나이',
+  "favorite_color": '좋아하는 것',
+  "favorite_food": '좋아하는 것',
+  "hobby": '좋아하는 것',
 }
 
-async function MemoryList({
-                            threadId
-                          }: Props) {
-  const session = await auth();
-  // TODO: Type!
-  const memories: MemoryType[] = await fetch(`${process.env.NEXT_PUBLIC_API_URL||''}/api/v1/memory/${threadId}`, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${session?.user?.accessToken}`,
-    },
-  }).then((response) => {
-    if (!response.ok) {
-      throw new Error('Memory Fetch Error');
-    }
-    return response.json();
-  }).then((data) => {
-    if (data.success) {
-      return data.memories;
-    }
-    return [];
-  }).catch((error) => {
-    console.error("Error", error);
-    return [];
-  });
+function MemoryList({
+                      memories
+                    }: Props) {
+  const [isShowModal, setIsShowModal] = useState(false);
+  const session = useSession();
 
-  console.log(memories)
+  const closeModal = () => {
+    setIsShowModal(false);
+  }
+
+  const deleteMemory = async (memoryId: string) => {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL||''}/api/v1/memory/${memoryId}`, {
+      method: 'Delete',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${session.data?.user?.accessToken}`,
+      },
+      credentials: 'include',
+    });
+  }
+
+  const showEditConfirm = () => {
+    confirm({
+      title: "수정하시겠습니까?",
+      content: <>
+
+      </>,
+      onOk: ()=>{console.log("OK")},
+      onCancel: closeModal
+    });
+  }
+
+  const showDeleteConfirm = (memoryId: string) => () => {
+    confirm({
+      title: "삭제하시겠습니까?",
+      content: <>
+        삭제한 후에는 변경할 수 없습니다.
+      </>,
+      onOk: async ()=>{
+        await deleteMemory(memoryId)
+      },
+      onCancel: closeModal
+    });
+  }
+
   return (
-      <div className="overflow-scroll h-[80dvh] bg-gray-100 rounded-md text-black flex-1">
-        {memories.map((memory) => <div key={memory.id}>
-          <span>{memory.type}</span>
-          <span>{memory.description}</span>
-        </div>)}
-      </div>
+      <>
+        <div className="overflow-scroll h-[80dvh] bg-gray-100 rounded-md text-black flex-1 px-4 py-4">
+          {memories.map((memory) => <div key={memory.id} className="flex items-center justify-between">
+            <div className="flex gap-x-2 items-center">
+              <span className="w-[50px] font-semibold text-[16px]">{title[memory.type]}</span>
+              <span>{memory.description}</span>
+            </div>
+            <div className="flex text-[16px] gap-x-1 items-center">
+            <span className="text-gray-500 cursor-pointer" onClick={showEditConfirm}>
+              <MdModeEdit/>
+            </span>
+              <span className="text-gray-500 cursor-pointer" onClick={showDeleteConfirm(memory.id)}>
+              <MdDelete/>
+            </span>
+            </div>
+          </div>)}
+        </div>
+
+      </>
   );
 }
+
 
 export default MemoryList;
