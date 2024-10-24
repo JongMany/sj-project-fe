@@ -23,13 +23,11 @@ export default function JoinForm() {
     // Validation
     const validationResult = joinFormSchema.safeParse(joinForm);
     if (!validationResult.success) {
-      const errorMessages = validationResult.error.format();
-      console.log(errorMessages); // Validation errors will be logged here
-      showToast('error', <>로그인 오류</>);
+      // const errorMessages = validationResult.error.format();
+      const errors = Object.values(validationResult.error.flatten().fieldErrors);
+      showToast('error', <p>{errors[0]}</p>);
       return;
     }
-
-    // Register Fetch
 
 
     fetch(`${process.env.NEXT_PUBLIC_API_URL || ''}/api/v1/auth/register`, {
@@ -47,7 +45,7 @@ export default function JoinForm() {
           alert('회원가입 성공');
           router.replace('/login');
         } else {
-          alert(res.message);
+          showToast('error', <p>{res.message}</p>);
         }
       });
   };

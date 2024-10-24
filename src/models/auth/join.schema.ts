@@ -2,18 +2,18 @@ import { z } from 'zod';
 
 export const joinFormSchema = z
   .object({
-    email: z.string().email({ message: 'Invalid email address' }),
+    email: z.string().email({ message: '올바른 이메일 형식이 아닙니다.' }),
     password: z
       .string()
-      .min(8, { message: 'Password must be at least 8 characters long' }),
+      .min(8, { message: '비밀번호는 8자리 이상이어야 합니다.' }),
     passwordConfirm: z.string(),
-    name: z.string().min(1, { message: 'Name is required' }),
+    name: z.string().min(2, { message: '이름은 2자리 이상이어야 합니다.' }),
     phoneNumber: z
       .string()
-      .regex(/^\d+$/, { message: 'Phone number must contain only digits' }),
-    group: z.enum(['A', 'B', 'C', 'D'], { message: 'Invalid group selection' }),
+      .regex(/^\d+$/, { message: '올바른 전화번호 형식이어야 합니다.' }),
+    group: z.enum(['A', 'B', 'C', 'D'], { message: '그룹은 A, B, C 또는 D 중 하나여야 합니다.' }),
   })
   .refine((data) => data.password === data.passwordConfirm, {
-    message: 'Passwords do not match',
+    message: '비밀번호가 일치하지 않습니다.',
     path: ['passwordConfirm'],
   });
