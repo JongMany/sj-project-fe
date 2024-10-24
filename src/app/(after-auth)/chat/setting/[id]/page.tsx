@@ -19,9 +19,9 @@ async function Page({ params: { id }, searchParams: { type } }: Props) {
 
   return (
     <div className="bg-white px-4 py-4 h-[calc(100dvh-50px)]">
-      <div className="h-full flex flex-col justify-between">
-        <h3 className="text-black font-semibold text-[15px]">
-          {CHATROOM_TYPE[type]}이 알고 있는 {session?.user?.name} 님의 정보
+      <div className="h-full flex flex-col justify-between gap-8">
+        <h3 className="text-black font-semibold text-[18px] flex items-center gap-x-3">
+          <span>{CHATROOM_TYPE[type]}이 알고 있는 {session?.user?.name} 님의 정보</span>
           <FaBrain />
         </h3>
         <MemoryList threadId={threadId} />

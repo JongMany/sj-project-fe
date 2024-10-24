@@ -5,12 +5,19 @@ type Props = {
   threadId: string;
 }
 
+type MemoryType = {
+  id: string;
+  userId: string;
+  type: 'age' | 'favorite_color' | 'favorite_food' | 'hobby' | 'things_to_do' | 'things_done' | 'things_to_do_later';
+  description: string;
+}
+
 async function MemoryList({
                             threadId
                           }: Props) {
   const session = await auth();
   // TODO: Type!
-  const memories: {data: Record<string, string>}[] = await fetch(`${process.env.NEXT_PUBLIC_API_URL||''}/api/v1/memory/${threadId}`, {
+  const memories: MemoryType[] = await fetch(`${process.env.NEXT_PUBLIC_API_URL||''}/api/v1/memory/${threadId}`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -31,10 +38,12 @@ async function MemoryList({
     return [];
   });
 
+  console.log(memories)
   return (
-      <div className="overflow-scroll h-[80dvh] bg-gray-100 rounded-md">
-        {memories.map((memory) => <div key={JSON.stringify(memory)}>
-          {JSON.stringify(memory.data)}
+      <div className="overflow-scroll h-[80dvh] bg-gray-100 rounded-md text-black flex-1">
+        {memories.map((memory) => <div key={memory.id}>
+          <span>{memory.type}</span>
+          <span>{memory.description}</span>
         </div>)}
       </div>
   );
