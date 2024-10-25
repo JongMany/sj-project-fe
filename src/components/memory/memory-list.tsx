@@ -109,7 +109,12 @@ function MemoryList({
         </div>
       </>,
       onOk: async () => {
-        await editMemory(memory.id, inputRef.current.value);
+        if(inputRef.current) {
+          await editMemory(memory.id, inputRef.current.value);
+        } else {
+          showToast("error", <>값을 입력하시지 않으셨습니다.</>);
+        }
+
         // console.log("OK", inputRef.current.value);
       },
       onCancel: closeModal
