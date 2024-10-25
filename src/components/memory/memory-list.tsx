@@ -1,6 +1,6 @@
 "use client";
 
-import React, {useEffect, useRef, useState} from 'react';
+import React, { useRef, useState} from 'react';
 import {MdDelete, MdModeEdit} from "react-icons/md";
 import {MemoryType} from "@/app/(after-auth)/chat/setting/[id]/page";
 import {Modal} from "antd";
@@ -33,7 +33,9 @@ function MemoryList({
   const inputRef = useRef<HTMLInputElement>(null);
 
   const closeModal = () => {
-    setIsShowModal(false);
+    if(isShowModal) {
+      setIsShowModal(false);
+    }
   }
 
   const deleteMemory = async (memoryId: string) => {
@@ -107,7 +109,12 @@ function MemoryList({
         </div>
       </>,
       onOk: async () => {
-        await editMemory(memory.id, inputRef.current.value);
+        if(inputRef.current) {
+          await editMemory(memory.id, inputRef.current.value);
+        } else {
+          showToast("error", <>값을 입력하시지 않으셨습니다.</>);
+        }
+
         // console.log("OK", inputRef.current.value);
       },
       onCancel: closeModal
