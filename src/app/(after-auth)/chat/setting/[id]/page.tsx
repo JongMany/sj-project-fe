@@ -5,6 +5,7 @@ import { AssistantType } from '@/models/chat/chat-room.dto';
 import { auth } from '@/auth';
 import MemoryList from '@/components/memory/memory-list';
 import { FaBrain } from 'react-icons/fa6';
+import {MemoryType} from "@/models/memory/memory.model";
 
 type Props = {
   params: {
@@ -12,13 +13,6 @@ type Props = {
   };
   searchParams: { type: AssistantType };
 };
-
-export type MemoryType = {
-  id: string;
-  userId: string;
-  type: 'age' | 'favorite_color' | 'favorite_food' | 'hobby' | 'things_to_do' | 'things_done' | 'things_to_do_later';
-  description: string;
-}
 
 async function Page({ params: { id }, searchParams: { type } }: Props) {
   const threadId = decodeByAES256(id);

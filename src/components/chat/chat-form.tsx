@@ -11,7 +11,7 @@ import { useSearchParams } from 'next/navigation';
 import React, { ChangeEvent, useEffect, useRef, useState } from 'react';
 import { FaRegStopCircle } from 'react-icons/fa';
 import { IoMdSend } from 'react-icons/io';
-import {BeatLoader} from "react-spinners";
+import { BeatLoader } from "react-spinners";
 
 type Props = {
   threadId: string;
