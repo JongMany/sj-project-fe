@@ -91,7 +91,8 @@ function ChatForm({threadId}: Props) {
   const submitHandler = async () => {
     try {
       setIsSendStatus('sending');
-      const prevMessageDate = new Date(response.at(-1)?.createdAt).toLocaleDateString();
+      const prevMessage = response.at(-1);
+      const prevMessageDate = prevMessage && new Date(prevMessage.createdAt).toLocaleDateString();
       const current = Date.now();
       const currentDate = new Date(current).toLocaleDateString();
       setResponse((prev) => [
@@ -101,7 +102,7 @@ function ChatForm({threadId}: Props) {
           role: 'user',
           content: [{text: {value: value, annotations: []}, type: 'text'}],
           createdAt: current,
-          isDayFirstMessage: prevMessageDate !== currentDate
+          isDayFirstMessage: prevMessageDate ? prevMessageDate !== currentDate : true,
         },
       ]);
       const answerResponse = await fetch(
@@ -156,7 +157,8 @@ function ChatForm({threadId}: Props) {
         <div className="overflow-y-scroll px-4 h-full ">
           {response.map((message) => (
               <>
-                {message.isDayFirstMessage && <div key={`date-${message.id}`} className={"text-black text-[12px] flex justify-center my-3 py-1 bg-gray-300 rounded-md"}>
+                {message.isDayFirstMessage && <div key={`date-${message.id}`}
+                                                   className={"text-black text-[12px] flex justify-center my-3 py-1 bg-gray-300 rounded-md"}>
                   <span className={"text-center"}>{new Date(message.createdAt).toLocaleDateString()}</span>
                 </div>}
 
