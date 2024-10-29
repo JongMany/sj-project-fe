@@ -9,7 +9,7 @@ export type ChatMessage = {
   thread_id: string;
   run_id: string;
   role: 'assistant' | 'user';
-  created_at: string;
+  created_at: number; // TODO: Check type is string
   content: {
     text: {
       value: string;
@@ -22,6 +22,7 @@ export type ChatMessage = {
 export type MessageContent = {
   id: string;
   role: 'assistant' | 'user';
+  createdAt: number;
   content: {
     text: {
       value: string;
@@ -29,4 +30,5 @@ export type MessageContent = {
     };
     type: 'text';
   }[];
+  isDayFirstMessage: boolean;
 };
