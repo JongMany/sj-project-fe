@@ -2,27 +2,17 @@
 
 import React, { useRef, useState} from 'react';
 import {MdDelete, MdModeEdit} from "react-icons/md";
-import {MemoryType} from "@/app/(after-auth)/chat/setting/[id]/page";
+
 import {Modal} from "antd";
 import {useSession} from "next-auth/react";
 import {showToast} from "@/utils/show-toast";
-
+import type {MemoryType} from "@/models/memory/memory.model";
 const {confirm} = Modal;
 
 type Props = {
   memories: MemoryType[]
 }
 
-
-const title = {
-  'things_to_do': '한 일',
-  'things_done': '했던 일',
-  'things_to_do_later': '할 일',
-  'age': '나이',
-  "favorite_color": '좋아하는 것',
-  "favorite_food": '좋아하는 것',
-  "hobby": '좋아하는 것',
-}
 
 function MemoryList({
                       memories
@@ -140,7 +130,7 @@ function MemoryList({
         <div className="overflow-scroll h-[80dvh] bg-gray-100 rounded-md text-black flex-1 px-4 py-4">
           {memoryList.map((memory) => <div key={memory.id} className="flex items-center justify-between mb-4 gap-x-2">
             <div className="flex gap-x-2 items-center">
-              <span className="min-w-[70px] font-semibold text-[14px]">{title[memory.type]}</span>
+              <span className="min-w-[70px] font-semibold text-[14px]">{categorizePrefix(memory.type)}</span>
               <span className="text-[12px]">{memory.description}</span>
             </div>
             <div className="flex text-[15px] gap-x-1 items-center">
@@ -157,6 +147,20 @@ function MemoryList({
       </>
   );
 }
-
+function categorizePrefix(input: string): string {
+  if (input.startsWith("personal_info")) {
+    return "개인정보";
+  } else if (input.startsWith("dislike_")) {
+    return "싫어하는 것";
+  } else if (input.startsWith("like_")) {
+    return "좋아하는 것";
+  } else if (input.startsWith("recent_updates")) {
+    return "근황";
+  } else if (input.startsWith("activities_")) {
+    return "활동";
+  } else {
+    return "알 수 없음"; // 정의되지 않은 접두사에 대한 기본 값
+  }
+}
 
 export default MemoryList;
