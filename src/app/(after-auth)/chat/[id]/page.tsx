@@ -25,10 +25,10 @@ export default async function ChatRoomPage({
 
   return (
     <div className="bg-white max-h-[calc(100dvh-50px)] h-[calc(100dvh-50px)] overflow-y-hidden flex flex-col">
-      <div className="max-w-[360px] min-h-[30px] h-[30px] bg-gray-200 flex items-center ">
+      <div className="min-w-[360px] min-h-[30px] h-[30px] bg-gray-200 flex items-center ">
         <span className={"px-4 text-black"}>Type: {type}</span>
         {
-          userType[userGroup].removeMemory && (
+          userType[userGroup]?.removeMemory && (
               <Link href={`/chat/setting/${id}?type=${type}`}>
                 <FaBrain />
               </Link>
