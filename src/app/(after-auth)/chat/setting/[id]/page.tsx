@@ -57,7 +57,7 @@ async function Page({params: {id}, searchParams: {type}}: Props) {
             <span>{CHATROOM_TYPE[type]}이 알고 있는 {session?.user?.name} 님의 정보</span>
             <FaBrain/>
           </h3>
-          <MemoryList memories={memories}/>
+          <MemoryList memories={memories} type={type}/>
         </div>
       </div>
   );
