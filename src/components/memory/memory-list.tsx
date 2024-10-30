@@ -66,6 +66,7 @@ function MemoryList({
         },
         body: JSON.stringify({
           description: changeValue,
+          type,
         }),
         credentials: 'include',
       });
