@@ -20,6 +20,7 @@ type Props = {
 function ChatForm({threadId}: Props) {
   const searchParams = useSearchParams();
   const type = searchParams.get('type');
+  const [isLoading, setIsLoading] = useState(true);
   const [response, setResponse] = useState<MessageContent[]>([]);
   const [value, setValue] = useState('');
   const [sendStatus, setIsSendStatus] = useState<'idle' | 'sending' | 'error'>(
@@ -41,37 +42,45 @@ function ChatForm({threadId}: Props) {
   }, [response]);
 
   useEffect(() => {
-    async function fetchData() {
-      const session = await getSession();
-      const response = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/api/v1/gpt/messages/${threadId}`,
-          {
-            method: 'GET',
-            headers: {
-              'Content-Type': 'application/json',
-              Authorization: `Bearer ${session?.user?.accessToken}`,
-            },
-          },
-      );
-      const data: ChatMessageDto = await response.json();
-      if (Array.isArray(data.messages)) {
-        let prevMessage: ChatMessage;
-        const messages: MessageContent[] = data.messages.map(
-            (message: ChatMessage) => {
-              const curMessageDate = new Date(message.created_at * 1000);
-              const prevMessageDate = prevMessage && new Date(prevMessage?.created_at * 1000);
-              prevMessage = message;
 
-              return {
-                id: message.id,
-                role: message.role,
-                content: message.content,
-                createdAt: message.created_at * 1000,
-                isDayFirstMessage: prevMessageDate ? prevMessageDate.toLocaleDateString() !== curMessageDate.toLocaleDateString() : true,
-              };
+    async function fetchData() {
+      try {
+        setIsLoading(true);
+        const session = await getSession();
+        const response = await fetch(
+            `${process.env.NEXT_PUBLIC_API_URL}/api/v1/gpt/messages/${threadId}`,
+            {
+              method: 'GET',
+              headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${session?.user?.accessToken}`,
+              },
             },
         );
-        setResponse(messages);
+        const data: ChatMessageDto = await response.json();
+        if (Array.isArray(data.messages)) {
+          let prevMessage: ChatMessage;
+          const messages: MessageContent[] = data.messages.map(
+              (message: ChatMessage) => {
+                const curMessageDate = new Date(message.created_at * 1000);
+                const prevMessageDate = prevMessage && new Date(prevMessage?.created_at * 1000);
+                prevMessage = message;
+
+                return {
+                  id: message.id,
+                  role: message.role,
+                  content: message.content,
+                  createdAt: message.created_at * 1000,
+                  isDayFirstMessage: prevMessageDate ? prevMessageDate.toLocaleDateString() !== curMessageDate.toLocaleDateString() : true,
+                };
+              },
+          );
+          setResponse(messages);
+        }
+      } catch (e) {
+        console.error(e);
+      } finally {
+        setIsLoading(false);
       }
     }
 
@@ -105,12 +114,14 @@ function ChatForm({threadId}: Props) {
           isDayFirstMessage: prevMessageDate ? prevMessageDate !== currentDate : true,
         },
       ]);
+      const session = await getSession();
       const answerResponse = await fetch(
           `${process.env.NEXT_PUBLIC_API_URL || ''}/api/v1/gpt/message`,
           {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
+              Authorization: `Bearer ${session?.user?.accessToken}`,
             },
             body: JSON.stringify({
               message: value,
@@ -200,7 +211,7 @@ function ChatForm({threadId}: Props) {
                 className="flex-1 text-black disabled:text-black disabled:bg-white"
                 placeholder="Message"
             />
-            <button disabled={sendStatus !== 'idle'}>
+            <button disabled={sendStatus !== 'idle' || isLoading}>
               {sendStatus === 'sending' ? (
                   <FaRegStopCircle/>
               ) : (
