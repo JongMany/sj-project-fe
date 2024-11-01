@@ -215,7 +215,9 @@ function ChatForm({threadId}: Props) {
               {sendStatus === 'sending' ? (
                   <FaRegStopCircle/>
               ) : (
-                  <IoMdSend className="text-[20px]"/>
+                  <IoMdSend className="text-[20px]" onClick={async ()=>{
+                    await submitHandler();
+                  }}/>
               )}
             </button>
           </div>
