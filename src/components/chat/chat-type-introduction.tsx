@@ -1,8 +1,6 @@
 import {userType} from "@/constants/user/user-type";
-import Link from "next/link";
 import React from "react";
 import {auth} from "@/auth";
-import {FaBrain} from "react-icons/fa6";
 import {AssistantType} from "@/models/chat/chat-room.dto";
 import {CHATROOM_TYPE} from "@/constants/chat/room-type";
 import {encodeByAES256} from "@/utils/encode";
@@ -48,7 +46,6 @@ export async function ChatTypeIntroduction({type, introduction}: Props) {
           <h4 className="mb-5 font-semibold">{CHATROOM_TYPE[type]}</h4>
           {
             userType[userGroup].removeMemory ? threadId ? (
-
                 <MemorySettingLink threadId={threadId} type={type}/>
             ) : <TooltipButton/> : null
           }
