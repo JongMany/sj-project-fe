@@ -60,7 +60,8 @@ function ChatForm({threadId}: Props) {
             },
         );
         const data: ChatMessageDto = await response.json();
-        if(!data.success) return;
+        // if(!data.success) return;
+
         if (Array.isArray(data.messages)) {
           let prevMessage: ChatMessage;
           const messages: MessageContent[] = data.messages.map(
@@ -78,9 +79,7 @@ function ChatForm({threadId}: Props) {
                 };
               },
           );
-          if(data.isFunctionCalling) {
-            changeIsNewFunctionCalling(data.isFunctionCalling)
-          }
+
           setResponse(messages);
         }
       } catch (e) {
@@ -146,7 +145,9 @@ function ChatForm({threadId}: Props) {
       const userMessageDate = currentDate;
       const answerSendTime = Date.now();
       const answerSendDate = new Date(answerSendTime).toLocaleDateString();
-      console.log(data);
+      if(data?.isFunctionCalling) {
+        changeIsNewFunctionCalling(data?.isFunctionCalling)
+      }
 
       setResponse((prev) => [
         ...prev,
@@ -173,8 +174,8 @@ function ChatForm({threadId}: Props) {
       <div className="px-4 py-2 flex flex-col min-h-[calc(100dvh-80px)] h-[calc(100dvh-80px)] bg-gray-200">
         <div className="overflow-y-scroll px-4 h-full ">
           {response.map((message) => (
-              <>
-                {message.isDayFirstMessage && <div key={`date-${message.id}`}
+              <React.Fragment key={`date-${message.id}`}>
+                {message.isDayFirstMessage && <div
                                                    className={"text-black text-[12px] flex justify-center my-3 py-1 bg-gray-300 rounded-md"}>
                   <span className={"text-center"}>{new Date(message.createdAt).toLocaleDateString()}</span>
                 </div>}
@@ -192,7 +193,7 @@ function ChatForm({threadId}: Props) {
                   <div
                       className={`text-[8px] `}>{new Date(message.createdAt).toLocaleTimeString()}</div>
                 </div>
-              </>
+              </React.Fragment>
           ))}
           {sendStatus === 'sending' && (
               <div className="chat chat-start">

@@ -15,14 +15,15 @@ const MONGLE_LS_KEY = 'MONGLE_FUNCTION_CALLING'
 
 const FunctionCallingProvider = ({children}: PropsWithChildren) => {
   const [isNewFunctionCalling,setIsNewFunctionCalling] = useState<boolean>(() => {
+    if(typeof window === 'undefined') return false;
     const localString = localStorage.getItem(MONGLE_LS_KEY);
     return localString ? JSON.parse(localString) : false;
   });
   const changeIsNewFunctionCalling = (isNewFunctionCalling: boolean) => {
     setIsNewFunctionCalling(isNewFunctionCalling);
+    console.log(isNewFunctionCalling);
     localStorage.setItem(MONGLE_LS_KEY, JSON.stringify(isNewFunctionCalling));
   }
-
 
   return <FunctionCallingContext.Provider value={{isNewFunctionCalling, changeIsNewFunctionCalling}}>
     {children}
