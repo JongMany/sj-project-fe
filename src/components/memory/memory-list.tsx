@@ -1,20 +1,24 @@
 "use client";
 
-import React, { useRef, useState} from 'react';
+import React, {useRef, useState} from 'react';
 import {MdDelete, MdModeEdit} from "react-icons/md";
 
 import {Modal} from "antd";
 import {useSession} from "next-auth/react";
 import {showToast} from "@/utils/show-toast";
 import type {MemoryType} from "@/models/memory/memory.model";
+import {AssistantType} from "@/models/chat/chat-room.dto";
+
 const {confirm} = Modal;
 
 type Props = {
+  type: AssistantType;
   memories: MemoryType[]
 }
 
 
 function MemoryList({
+                      type,
                       memories
                     }: Props) {
   const [memoryList, setMemoryList] = useState(memories);
@@ -23,7 +27,7 @@ function MemoryList({
   const inputRef = useRef<HTMLInputElement>(null);
 
   const closeModal = () => {
-    if(isShowModal) {
+    if (isShowModal) {
       setIsShowModal(false);
     }
   }
@@ -62,6 +66,7 @@ function MemoryList({
         },
         body: JSON.stringify({
           description: changeValue,
+          type,
         }),
         credentials: 'include',
       });
@@ -99,7 +104,7 @@ function MemoryList({
         </div>
       </>,
       onOk: async () => {
-        if(inputRef.current) {
+        if (inputRef.current) {
           await editMemory(memory.id, inputRef.current.value);
         } else {
           showToast("error", <>값을 입력하시지 않으셨습니다.</>);
@@ -147,6 +152,7 @@ function MemoryList({
       </>
   );
 }
+
 function categorizePrefix(input: string): string {
   if (input.startsWith("personal_info")) {
     return "개인정보";
