@@ -12,6 +12,7 @@ import React, {ChangeEvent, useEffect, useRef, useState} from 'react';
 import {FaRegStopCircle} from 'react-icons/fa';
 import {IoMdSend} from 'react-icons/io';
 import {BeatLoader} from 'react-spinners';
+import {useFunctionCallingContext} from "@/components/providers";
 
 type Props = {
   threadId: string;
@@ -26,6 +27,7 @@ function ChatForm({threadId}: Props) {
   const [sendStatus, setIsSendStatus] = useState<'idle' | 'sending' | 'error'>(
       'idle',
   );
+  const {changeIsNewFunctionCalling} = useFunctionCallingContext();
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
   // 스크롤을 맨 아래로 이동시키는 함수
@@ -58,6 +60,7 @@ function ChatForm({threadId}: Props) {
             },
         );
         const data: ChatMessageDto = await response.json();
+        if(!data.success) return;
         if (Array.isArray(data.messages)) {
           let prevMessage: ChatMessage;
           const messages: MessageContent[] = data.messages.map(
@@ -75,6 +78,9 @@ function ChatForm({threadId}: Props) {
                 };
               },
           );
+          if(data.isFunctionCalling) {
+            changeIsNewFunctionCalling(data.isFunctionCalling)
+          }
           setResponse(messages);
         }
       } catch (e) {

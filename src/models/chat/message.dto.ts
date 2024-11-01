@@ -1,6 +1,7 @@
 export type ChatMessageDto = {
   success: boolean;
   messages: ChatMessage[];
+  isFunctionCalling: boolean;
 };
 
 export type ChatMessage = {
