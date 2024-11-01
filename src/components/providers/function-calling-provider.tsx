@@ -31,7 +31,9 @@ const FunctionCallingProvider = ({children}: PropsWithChildren) => {
 
 export const useFunctionCallingContext = () => {
   const context = useContext(FunctionCallingContext);
-  if(!context) return;
+  if(!context) {
+    throw new Error("FunctionCallingContext is not defined");
+  }
   return context;
 }
 
