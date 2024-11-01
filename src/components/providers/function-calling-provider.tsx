@@ -21,7 +21,6 @@ const FunctionCallingProvider = ({children}: PropsWithChildren) => {
   });
   const changeIsNewFunctionCalling = (isNewFunctionCalling: boolean) => {
     setIsNewFunctionCalling(isNewFunctionCalling);
-    console.log(isNewFunctionCalling);
     localStorage.setItem(MONGLE_LS_KEY, JSON.stringify(isNewFunctionCalling));
   }
 
