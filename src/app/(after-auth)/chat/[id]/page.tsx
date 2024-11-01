@@ -5,12 +5,14 @@ import { FaBrain } from "react-icons/fa6";
 import {auth} from "@/auth";
 import {userType} from "@/constants/user/user-type";
 import Link from "next/link";
+import {AssistantType} from "@/models/chat/chat-room.dto";
+import MemorySettingLink from "@/components/link/memory-setting-link";
 
 type Props = {
   params: {
     id: string;
   };
-  searchParams: { type: string };
+  searchParams: { type: AssistantType };
 };
 
 // thread_7EzPEnRrfhLhos84u2aHEczb
@@ -29,9 +31,10 @@ export default async function ChatRoomPage({
         <span className={"px-4 text-black"}>Type: {type}</span>
         {
           userType[userGroup]?.removeMemory && (
-              <Link href={`/chat/setting/${id}?type=${type}`}>
-                <FaBrain />
-              </Link>
+              <MemorySettingLink threadId={id} type={type}/>
+              // <Link href={`/chat/setting/${id}?type=${type}`}>
+              //   <FaBrain />
+              // </Link>
             )
 
         }

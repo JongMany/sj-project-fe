@@ -18,18 +18,6 @@ async function Page({params: {id}, searchParams: {type}}: Props) {
   const threadId = decodeByAES256(id);
   const session = await auth();
 
-  // TODO: 수정!
-  await fetch(`${process.env.NEXT_PUBLIC_API_URL || ''}/api/v1/event/memory-view`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${session?.user?.accessToken}`,
-    },
-    body: JSON.stringify({
-      type
-    })
-  })
-
   const memories: MemoryType[] = await fetch(`${process.env.NEXT_PUBLIC_API_URL || ''}/api/v1/memory/${threadId}`, {
     method: 'GET',
     headers: {
