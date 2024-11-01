@@ -1,6 +1,7 @@
 export type ChatMessageDto = {
   success: boolean;
   messages: ChatMessage[];
+
 };
 
 export type ChatMessage = {
