@@ -9,7 +9,7 @@ function Page() {
       <section className="mb-8 flex justify-center">
         <CreateChatButton type="Default" />
       </section>
-      <ChatTypeIntroduction type="Default" introduction={<span>AI Assistant와 대화를 나눠보세요</span>}/>
+      <ChatTypeIntroduction type="Default" introduction={<span>AI 에이전트와 대화를 나눠보세요</span>}/>
     </div>
   );
 }
