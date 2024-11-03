@@ -5,7 +5,7 @@ export default async function Home() {
   const session = await auth();
   const name = session?.user?.name;
   const group = session?.user?.group;
-  const externalLink = getExternalLink(group);
+  const externalLink = getExternalLink(group!);
 
 
   return (
@@ -37,6 +37,9 @@ export default async function Home() {
 function getExternalLink(group: 'A'|'B'|'C'|'D') {
   switch (group) {
     case 'A': return 'https://naver.me/x0U9u41q';
+    case 'B': return 'https://naver.me/FK598DBf';
+    case 'C': return 'https://naver.me/5XJVB2M7';
+    case 'D': return 'https://naver.me/FIfMi5WS';
     default: {
       alert('문제가 발생했습니다.')
       return '';
