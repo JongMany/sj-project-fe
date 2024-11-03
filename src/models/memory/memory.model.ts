@@ -1,4 +1,4 @@
-type ProfileDetailKey =
+export type ProfileDetailKey =
     | 'personal_info_age'
     | 'personal_info_gender'
     | 'personal_info_job'
@@ -33,4 +33,46 @@ export type MemoryType = {
   userId: string;
   type: ProfileDetailKey;
   description: string;
+}
+
+
+export type GroupMemoryType = {
+  'personal_info': {
+    age: MemoryType[],
+    gender: MemoryType[],
+    job: MemoryType[],
+    personality: MemoryType[],
+    living_arrangement: MemoryType[],
+    family_relationship: MemoryType[],
+    interpersonal_relationship: MemoryType[]
+  },
+  'dislike': {
+    people: MemoryType[],
+    foods: MemoryType[],
+    behaviors: MemoryType[];
+    celebrities: MemoryType[]
+  },
+  'like': {
+    people: MemoryType[];
+    celebrities: MemoryType[];
+    foods: MemoryType[];
+    colors: MemoryType[];
+    places: MemoryType[];
+    activities: MemoryType[];
+    hobbies: MemoryType[]
+  },
+  'recent_updates': {
+    interest: MemoryType[];
+    concern: MemoryType[];
+    daily_life: MemoryType[];
+    relationship_update: MemoryType[];
+    future_plans: MemoryType[];
+    anxieties: MemoryType[];
+    goals: MemoryType[]
+  },
+  'activities': {
+    past: MemoryType[];
+    current: MemoryType[];
+    future: MemoryType[];
+  }
 }

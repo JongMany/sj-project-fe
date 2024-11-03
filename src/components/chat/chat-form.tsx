@@ -19,6 +19,7 @@ type Props = {
 };
 
 function ChatForm({threadId}: Props) {
+  console.log(threadId);
   const searchParams = useSearchParams();
   const type = searchParams.get('type');
   const [isLoading, setIsLoading] = useState(true);
@@ -145,6 +146,7 @@ function ChatForm({threadId}: Props) {
       const userMessageDate = currentDate;
       const answerSendTime = Date.now();
       const answerSendDate = new Date(answerSendTime).toLocaleDateString();
+
       if(data?.isFunctionCalling) {
         changeIsNewFunctionCalling(threadId, data.isFunctionCalling)
       }

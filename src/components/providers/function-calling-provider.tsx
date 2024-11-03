@@ -30,6 +30,7 @@ const FunctionCallingProvider = ({children}: PropsWithChildren) => {
       ...data,
       [threadId]: isNewFunctionCalling
     }
+    console.log('newData', newData);
     setData(newData);
     localStorage.setItem(MONGLE_LS_KEY, JSON.stringify(newData));
   }
