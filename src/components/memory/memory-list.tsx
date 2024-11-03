@@ -6,7 +6,7 @@ import {MdDelete, MdModeEdit} from "react-icons/md";
 import {Modal} from "antd";
 import {useSession} from "next-auth/react";
 import {showToast} from "@/utils/show-toast";
-import type {GroupMemoryType, MemoryType, ProfileDetailKey} from "@/models/memory/memory.model";
+import type { MemoryType, ProfileDetailKey} from "@/models/memory/memory.model";
 import {AssistantType} from "@/models/chat/chat-room.dto";
 
 const {confirm} = Modal;
@@ -14,7 +14,7 @@ const {confirm} = Modal;
 type Props = {
   type: AssistantType;
   memories: MemoryType[],
-  memoryListByGroup: Partial<GroupMemoryType>
+  // memoryListByGroup: Partial<GroupMemoryType>
 }
 
 
