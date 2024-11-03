@@ -13,11 +13,11 @@ type Props = {
 }
 
 function MemorySettingLink({threadId, type}: Props) {
-  const {isNewFunctionCalling, changeIsNewFunctionCalling} = useFunctionCallingContext();
+  const {data, changeIsNewFunctionCalling} = useFunctionCallingContext();
   return (
       <Link href={`/chat/setting/${threadId}?type=${type}`} onClick={async () => {
         const session = await getSession();
-        changeIsNewFunctionCalling(false);
+        changeIsNewFunctionCalling(threadId, false);
         await fetch(`${process.env.NEXT_PUBLIC_API_URL || ''}/api/v1/event/memory-view`, {
           method: 'POST',
           headers: {
@@ -31,7 +31,7 @@ function MemorySettingLink({threadId, type}: Props) {
       }}>
         <span className='flex items-start relative'>
           <FaBrain/>
-          {isNewFunctionCalling && <HiSparkles className='text-[14px] text-red-300 relative -left-[6px]'/>}
+          {data[threadId] && <HiSparkles className='text-[14px] text-red-300 relative -left-[6px]'/>}
           </span>
       </Link>
   );

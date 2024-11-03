@@ -146,7 +146,7 @@ function ChatForm({threadId}: Props) {
       const answerSendTime = Date.now();
       const answerSendDate = new Date(answerSendTime).toLocaleDateString();
       if(data?.isFunctionCalling) {
-        changeIsNewFunctionCalling(data?.isFunctionCalling)
+        changeIsNewFunctionCalling(threadId, data.isFunctionCalling)
       }
 
       setResponse((prev) => [
