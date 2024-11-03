@@ -29,7 +29,7 @@ export function encodeByAES256(data: string) {
 }
 
 export function decodeByAES256(data: string) {
-  const key = process.env.NEXT_PUBLIC_THREAD_KEY;
+  const key = process.env.NEXT_PUBLIC_THREAD_KEY || 'Jx8L7k2NdVbP4wZqR9nS3y5HdTcX6QfA';;
   if (!key || key.length !== 32) {
     throw new Error('Key must be 32 characters long');
   }
