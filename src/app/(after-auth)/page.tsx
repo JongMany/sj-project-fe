@@ -2,6 +2,7 @@ import {auth} from '@/auth';
 import Link from 'next/link';
 import Image from "next/image";
 import Mongle from "@/assets/mongle.png"
+import {IoNewspaperOutline} from "react-icons/io5";
 
 export default async function Home() {
   const session = await auth();
@@ -17,24 +18,23 @@ export default async function Home() {
             <strong className="font-bold text-[16px] ml-4 mt-2">{name}</strong>님, 안녕하세요!
           </span>
           </div>
-          <section className='flex flex-col justify-center gap-y-10 ml-4'>
+          <section className='flex flex-col items-center justify-center gap-y-10'>
             <Link
                 href="/chat/create"
                 className="text-black font-semibold text-[16px]"
             >
-              <div className='w-[50dvw] h-[40dvw] bg-gray-200 rounded-md flex flex-col items-center justify-center'>
-                <Image src={Mongle} alt={'몽글이'} width={`150`} />
+              <div className='w-[80dvw] h-[40dvw] bg-gray-200 rounded-md flex flex-col items-center justify-center'>
+                <Image src={Mongle} alt={'몽글이'} width={`150`}/>
                 <span>에이전트와 대화하기</span>
               </div>
             </Link>
-            <div className='flex'>
-
-              <Link href={externalLink} target={'_blank'}
-                    className='w-[50dvw] px-4 py-4 text-black font-semibold  bg-gray-200 rounded-md text-center'>
-
-                사용일지 작성하기
-              </Link>
-            </div>
+            <Link href={externalLink} target={'_blank'}
+                  className='w-[80dvw] px-4 py-4 text-black font-semibold  bg-gray-200 rounded-md text-center'>
+              <div className='flex flex-col items-center gap-y-2'>
+                <IoNewspaperOutline fontSize={'24'} color='skyblue' />
+                <span>사용일지 작성하기</span>
+              </div>
+            </Link>
           </section>
         </div>
         <footer className='px-2 py-1 flex flex-col gap-y-2 ml-2'>
