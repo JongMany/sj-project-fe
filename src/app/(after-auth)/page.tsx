@@ -1,9 +1,5 @@
-// 'use client';
-// import { useSession } from 'next-auth/react';
-
 import {auth} from '@/auth';
 import Link from 'next/link';
-import {getSession} from "next-auth/react";
 
 export default async function Home() {
   const session = await auth();

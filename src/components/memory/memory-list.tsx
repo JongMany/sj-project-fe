@@ -28,8 +28,6 @@ function MemoryList({
   const session = useSession();
   console.log(memories)
   const inputRef = useRef<HTMLInputElement>(null);
-  // const memoryEntries = Object.entries(memoryListByGroup);
-  // console.log(memoryEntries)
   const closeModal = () => {
     if (isShowModal) {
       setIsShowModal(false);
@@ -176,21 +174,21 @@ function MemoryList({
 
 
 
-function categorizePrefix(input: string) {
-  if (input.startsWith("personal_info")) {
-    return "개인정보";
-  } else if (input.startsWith("dislike")) {
-    return "싫어하는 것";
-  } else if (input.startsWith("like")) {
-    return "좋아하는 것";
-  } else if (input.startsWith("recent_updates")) {
-    return "근황";
-  } else if (input.startsWith("activities")) {
-    return "활동";
-  } else {
-    return "알 수 없음"; // 정의되지 않은 접두사에 대한 기본 값
-  }
-}
+// function categorizePrefix(input: string) {
+//   if (input.startsWith("personal_info")) {
+//     return "개인정보";
+//   } else if (input.startsWith("dislike")) {
+//     return "싫어하는 것";
+//   } else if (input.startsWith("like")) {
+//     return "좋아하는 것";
+//   } else if (input.startsWith("recent_updates")) {
+//     return "근황";
+//   } else if (input.startsWith("activities")) {
+//     return "활동";
+//   } else {
+//     return "알 수 없음"; // 정의되지 않은 접두사에 대한 기본 값
+//   }
+// }
 export function translateProfileDetailKey(key: ProfileDetailKey): string {
   const translations: Record<ProfileDetailKey, string> = {
     personal_info_age: '나이',
