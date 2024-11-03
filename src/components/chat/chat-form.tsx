@@ -132,6 +132,7 @@ function ChatForm({threadId}: Props) {
               message: value,
               threadId: threadId,
               type,
+              group: session?.user.group,
             }),
           },
       );
@@ -145,8 +146,9 @@ function ChatForm({threadId}: Props) {
       const userMessageDate = currentDate;
       const answerSendTime = Date.now();
       const answerSendDate = new Date(answerSendTime).toLocaleDateString();
+
       if(data?.isFunctionCalling) {
-        changeIsNewFunctionCalling(data?.isFunctionCalling)
+        changeIsNewFunctionCalling(threadId, data.isFunctionCalling)
       }
 
       setResponse((prev) => [
@@ -168,7 +170,6 @@ function ChatForm({threadId}: Props) {
       setIsSendStatus('idle');
     }
   };
-  console.log(response)
 
   return (
       <div className="px-4 py-2 flex flex-col min-h-[calc(100dvh-80px)] h-[calc(100dvh-80px)] bg-gray-200">

@@ -30,7 +30,7 @@ export default async function ChatRoomPage({
             <span className={"px-4 text-black"}>Type: {type}</span>
             {
                 userType[userGroup]?.removeMemory && (
-                    <MemorySettingLink threadId={id} type={type}/>
+                    <MemorySettingLink encodedThreadId={id} type={type}/>
                 )
             }
           </div>
