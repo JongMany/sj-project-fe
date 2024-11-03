@@ -21,14 +21,15 @@ type Props = {
 function MemoryList({
                       type,
                       memories,
-                      memoryListByGroup,
+                      // memoryListByGroup,
                     }: Props) {
   const [memoryList, setMemoryList] = useState(memories);
   const [isShowModal, setIsShowModal] = useState(false);
   const session = useSession();
+  console.log(memories)
   const inputRef = useRef<HTMLInputElement>(null);
-  const memoryEntries = Object.entries(memoryListByGroup);
-  console.log(memoryEntries)
+  // const memoryEntries = Object.entries(memoryListByGroup);
+  // console.log(memoryEntries)
   const closeModal = () => {
     if (isShowModal) {
       setIsShowModal(false);
@@ -49,6 +50,7 @@ function MemoryList({
         throw new Error("error");
       }
       const data = await response.json();
+      console.log(data);
       if (data.success) {
         setMemoryList(data.memories);
       }
@@ -78,7 +80,7 @@ function MemoryList({
         throw new Error("error");
       }
       const data = await response.json();
-      console.log(response, data);
+
       if (data.success) {
         const {id, description} = data;
         setMemoryList(prev => prev.map((item) => item.id !== id ? item : {

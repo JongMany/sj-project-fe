@@ -46,7 +46,7 @@ export async function ChatTypeIntroduction({type, introduction}: Props) {
           <h4 className="mb-5 font-semibold">{CHATROOM_TYPE[type]}</h4>
           {
             userType[userGroup].removeMemory ? threadId ? (
-                <MemorySettingLink threadId={threadId} type={type}/>
+                <MemorySettingLink encodedThreadId={threadId} type={type}/>
             ) : <TooltipButton/> : null
           }
         </div>

@@ -19,7 +19,6 @@ type Props = {
 };
 
 function ChatForm({threadId}: Props) {
-  console.log(threadId);
   const searchParams = useSearchParams();
   const type = searchParams.get('type');
   const [isLoading, setIsLoading] = useState(true);
@@ -133,6 +132,7 @@ function ChatForm({threadId}: Props) {
               message: value,
               threadId: threadId,
               type,
+              group: session?.user.group,
             }),
           },
       );
@@ -170,7 +170,6 @@ function ChatForm({threadId}: Props) {
       setIsSendStatus('idle');
     }
   };
-  console.log(response)
 
   return (
       <div className="px-4 py-2 flex flex-col min-h-[calc(100dvh-80px)] h-[calc(100dvh-80px)] bg-gray-200">
