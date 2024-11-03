@@ -120,6 +120,7 @@ function ChatForm({threadId}: Props) {
         },
       ]);
       const session = await getSession();
+      const userGroup = session?.user?.group;
       const answerResponse = await fetch(
           `${process.env.NEXT_PUBLIC_API_URL || ''}/api/v1/gpt/message`,
           {
@@ -132,7 +133,7 @@ function ChatForm({threadId}: Props) {
               message: value,
               threadId: threadId,
               type,
-              group: session?.user.group,
+              group: userGroup!,
             }),
           },
       );
