@@ -45,9 +45,12 @@ export async function ChatTypeIntroduction({type, introduction}: Props) {
         <div className="flex justify-between">
           <h4 className="mb-5 font-semibold">{CHATROOM_TYPE[type]}</h4>
           {
-            userType[userGroup].removeMemory ? threadId ? (
+            userType[userGroup].removeMemory && threadId &&
                 <MemorySettingLink encodedThreadId={threadId} type={type}/>
-            ) : <TooltipButton/> : null
+
+          }
+          {
+              userType[userGroup].removeMemory && !threadId && <TooltipButton/>
           }
         </div>
         {introduction}

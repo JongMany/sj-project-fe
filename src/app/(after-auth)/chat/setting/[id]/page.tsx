@@ -24,6 +24,7 @@ async function Page({params: {id}, searchParams: {type}}: Props) {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${session?.user?.accessToken}`,
     },
+    cache: 'no-cache'
   }).then((response) => {
     if (!response.ok) {
       throw new Error('Memory Fetch Error');

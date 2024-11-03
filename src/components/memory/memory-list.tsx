@@ -26,7 +26,6 @@ function MemoryList({
   const [memoryList, setMemoryList] = useState(memories);
   const [isShowModal, setIsShowModal] = useState(false);
   const session = useSession();
-  console.log(memories)
   const inputRef = useRef<HTMLInputElement>(null);
   const closeModal = () => {
     if (isShowModal) {
