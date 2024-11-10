@@ -112,7 +112,7 @@ function MemoryList({
           showToast("error", <>값을 입력하시지 않으셨습니다.</>);
         }
 
-        // console.log("OK", inputRef.current.value);
+        // console.logs("OK", inputRef.current.value);
       },
       onCancel: closeModal
     });
