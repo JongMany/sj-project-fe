@@ -48,7 +48,9 @@ async function Page({ searchParams: { id1 } }: Props) {
           )}
         </div>
         <Link
-          href={`/admin/${encodedId}/logs?id=${encodedId}`}
+          href={`/admin/${encodedId}/logs?id=${encodedId}&id2=${
+            data.email.split('@')[0]
+          }`}
           className="text-gray-500"
         >
           사용자 로그 보기
