@@ -14,7 +14,7 @@ async function Page() {
   );
   const allUser = await response.json();
 
-  const users = allUser.slice(0);
+  const users = allUser.slice(10);
 
   return (
     <div className="flex flex-col gap-y-2 px-4 py-8 text-black justify-center items-center">
