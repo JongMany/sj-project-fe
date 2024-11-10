@@ -16,8 +16,6 @@ async function Page() {
 
   const users = allUser.slice(10);
 
-  // console.log(users);
-
   return (
     <div className="flex flex-col gap-y-2 px-4 py-8 text-black justify-center items-center">
       <h1 className="text-[22px] font-bold mb-10">Admin 페이지</h1>
