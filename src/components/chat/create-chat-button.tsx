@@ -6,6 +6,7 @@ import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import {encodeByAES256} from "@/utils/encode";
 import {useState} from "react";
+import {flushSync} from "react-dom";
 
 
 export const CreateChatButton = ({ type }: { type: AssistantType }) => {
@@ -15,9 +16,9 @@ export const CreateChatButton = ({ type }: { type: AssistantType }) => {
 
   const createRoomHandler = async () => {
     if(isMaking) return;
-
+    flushSync(() => setIsMaking(true));
     try {
-      setIsMaking(true);
+
       const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL||''}/api/v1/gpt/thread`, {
         method: 'POST',
         headers: {

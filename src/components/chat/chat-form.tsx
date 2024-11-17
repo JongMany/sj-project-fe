@@ -13,6 +13,7 @@ import {FaRegStopCircle} from 'react-icons/fa';
 import {IoMdSend} from 'react-icons/io';
 import {BeatLoader} from 'react-spinners';
 import {useFunctionCallingContext} from "@/components/providers";
+import {flushSync} from "react-dom";
 
 type Props = {
   threadId: string;
@@ -103,8 +104,8 @@ function ChatForm({threadId}: Props) {
   };
 
   const submitHandler = async () => {
+    flushSync(()=>setIsSendStatus('sending'));
     try {
-      setIsSendStatus('sending');
       const prevMessage = response.at(-1);
       const prevMessageDate = prevMessage && new Date(prevMessage.createdAt).toLocaleDateString();
       const current = Date.now();
