@@ -12,23 +12,92 @@ async function Page() {
       },
     },
   );
-  const users = await response.json();
+  const allUser = await response.json();
+
+  const users = allUser.slice(10);
+
+  // console.log(users);
 
   return (
-    <div className="flex flex-col gap-y-2 px-4 py-8">
-      {users.map((user: any, idx: number) => {
-        const encodedPhoneNumber = encodeByAES256(user.phoneNumber);
-        const encodedId = encodeByAES256(user.id);
-        return (
-          <div key={user.id} className="text-gray-500">
-            <Link
-              href={`/admin/user?id1=${encodedId}&id2=${encodedPhoneNumber}`}
-            >
-              {idx + 1}. {user.email.split('@')[0]}
-            </Link>
-          </div>
-        );
-      })}
+    <div className="flex flex-col gap-y-2 px-4 py-8 text-black justify-center items-center">
+      <h1 className="text-[22px] font-bold mb-10">Admin 페이지</h1>
+      {/* {users.slice(10).map((user: any, idx: number) => { */}
+      <div className="flex gap-x-20 mb-8">
+        <article className="min-w-[200px]">
+          <h3 className="text-[18px] font-bold">Group A</h3>
+          {users
+            .filter((user: any) => user.group === 'A')
+            .map((user: any, idx: number) => {
+              const encodedPhoneNumber = encodeByAES256(user.phoneNumber);
+              const encodedId = encodeByAES256(user.id);
+              return (
+                <div key={user.id} className="text-gray-500 mb-3">
+                  <Link
+                    href={`/admin/user?id1=${encodedId}&id2=${encodedPhoneNumber}`}
+                  >
+                    {idx + 1}. {user.email.split('@')[0]}
+                  </Link>
+                </div>
+              );
+            })}
+        </article>
+        <article className="min-w-[200px]">
+          <h3 className="text-[18px] font-bold">Group B</h3>
+          {users
+            .filter((user: any) => user.group === 'B')
+            .map((user: any, idx: number) => {
+              const encodedPhoneNumber = encodeByAES256(user.phoneNumber);
+              const encodedId = encodeByAES256(user.id);
+              return (
+                <div key={user.id} className="text-gray-500 mb-3">
+                  <Link
+                    href={`/admin/user?id1=${encodedId}&id2=${encodedPhoneNumber}`}
+                  >
+                    {idx + 1}. {user.email.split('@')[0]}
+                  </Link>
+                </div>
+              );
+            })}
+        </article>
+      </div>
+      <div className="flex gap-x-20">
+        <article className="min-w-[200px]">
+          <h3 className="text-[18px] font-bold">Group C</h3>
+          {users
+            .filter((user: any) => user.group === 'C')
+            .map((user: any, idx: number) => {
+              const encodedPhoneNumber = encodeByAES256(user.phoneNumber);
+              const encodedId = encodeByAES256(user.id);
+              return (
+                <div key={user.id} className="text-gray-500 mb-3">
+                  <Link
+                    href={`/admin/user?id1=${encodedId}&id2=${encodedPhoneNumber}`}
+                  >
+                    {idx + 1}. {user.email.split('@')[0]}
+                  </Link>
+                </div>
+              );
+            })}
+        </article>
+        <article className="min-w-[200px]">
+          <h3 className="text-[18px] font-bold">Group D</h3>
+          {users
+            .filter((user: any) => user.group === 'D')
+            .map((user: any, idx: number) => {
+              const encodedPhoneNumber = encodeByAES256(user.phoneNumber);
+              const encodedId = encodeByAES256(user.id);
+              return (
+                <div key={user.id} className="text-gray-500 mb-3">
+                  <Link
+                    href={`/admin/user?id1=${encodedId}&id2=${encodedPhoneNumber}`}
+                  >
+                    {idx + 1}. {user.email.split('@')[0]}
+                  </Link>
+                </div>
+              );
+            })}
+        </article>
+      </div>
     </div>
   );
 }
