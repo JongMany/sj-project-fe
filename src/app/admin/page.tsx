@@ -15,18 +15,16 @@ async function Page() {
   const users = await response.json();
 
   return (
-    <div className="flex flex-col gap-y-2">
+    <div className="flex flex-col gap-y-2 px-4 py-8">
       {users.map((user: any, idx: number) => {
-        const phoneNumber = user.phoneNumber;
-        const id = phoneNumber.slice(5, 9) + idx;
         const encodedPhoneNumber = encodeByAES256(user.phoneNumber);
         const encodedId = encodeByAES256(user.id);
         return (
-          <div key={user.id}>
+          <div key={user.id} className="text-gray-500">
             <Link
               href={`/admin/user?id1=${encodedId}&id2=${encodedPhoneNumber}`}
             >
-              {id}
+              {idx + 1}. {user.email.split('@')[0]}
             </Link>
           </div>
         );

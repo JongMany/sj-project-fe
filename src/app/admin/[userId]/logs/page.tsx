@@ -3,10 +3,10 @@ import React from 'react';
 
 type Props = {
   params: { userId: string };
-  searchParams: { id: string };
+  searchParams: { id: string; id2: string };
 };
 
-async function Page({ params: { userId }, searchParams: { id } }: Props) {
+async function Page({ params: { userId }, searchParams: { id, id2 } }: Props) {
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_API_URL || ''}/api/v1/event/admin/${id}`,
   );
@@ -16,19 +16,21 @@ async function Page({ params: { userId }, searchParams: { id } }: Props) {
   const chatEventLogs = logs.chatEventLogs;
 
   return (
-    <div className={'text-black'}>
-      <div>{userId}</div>
+    <div className="px-4 py-8 text-black flex flex-col gap-y-2">
+      <div className="text-[16px] font-bold">
+        {userId} / {id2}
+      </div>
       <section className="flex gap-x-3 h-[70vh]">
         {/*Memory*/}
 
         <article className="flex-1">
-          <div>메모리 수정 기록</div>
+          <div className="text-[18px] font-bold">메모리 로그</div>
           <div className="h-full overflow-y-scroll">
             {memoryEventLogs.length &&
               memoryEventLogs.map((log: any) => (
-                <div key={log.id} className={'flex gap-x-2'}>
-                  <span>{log.eventType}</span>
-                  <span>{log.agentType}</span>
+                <div key={log.id} className="flex gap-x-2 mb-1">
+                  <span className="w-[60px]">{log.eventType}</span>
+                  <span className="w-[80px]">{log.agentType}</span>
                   <span>{log.createdAt}</span>
                 </div>
               ))}
@@ -36,13 +38,13 @@ async function Page({ params: { userId }, searchParams: { id } }: Props) {
         </article>
         {/*Chat*/}
         <article className="flex-1">
-          <div>채팅 기록</div>
+          <div className="text-[18px] font-bold">채팅 로그</div>
           <div className="h-full overflow-y-scroll">
             {chatEventLogs.length &&
               chatEventLogs.map((log: any) => (
-                <div key={log.id} className={'flex gap-x-2'}>
-                  <span>{log.eventType}</span>
-                  <span>{log.agentType}</span>
+                <div key={log.id} className="flex gap-x-2 mb-1">
+                  <span className="w-[50px]">{log.eventType}</span>
+                  <span className="w-[80px]">{log.agentType}</span>
                   <span>{log.createdAt}</span>
                 </div>
               ))}
