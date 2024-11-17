@@ -14,9 +14,7 @@ async function Page() {
   );
   const allUser = await response.json();
 
-  const users = allUser.slice(10);
-
-  // console.log(users);
+  const users = allUser.slice(0);
 
   return (
     <div className="flex flex-col gap-y-2 px-4 py-8 text-black justify-center items-center">
@@ -28,14 +26,15 @@ async function Page() {
           {users
             .filter((user: any) => user.group === 'A')
             .map((user: any, idx: number) => {
-              const encodedPhoneNumber = encodeByAES256(user.phoneNumber);
               const encodedId = encodeByAES256(user.id);
               return (
                 <div key={user.id} className="text-gray-500 mb-3">
                   <Link
-                    href={`/admin/user?id1=${encodedId}&id2=${encodedPhoneNumber}`}
+                    href={`/admin/user?id1=${encodedId}&id2=${
+                      'User ' + Number(idx + 1)
+                    }`}
                   >
-                    {idx + 1}. {user.email.split('@')[0]}
+                    {idx + 1}. User {idx + 1}
                   </Link>
                 </div>
               );
@@ -46,14 +45,15 @@ async function Page() {
           {users
             .filter((user: any) => user.group === 'B')
             .map((user: any, idx: number) => {
-              const encodedPhoneNumber = encodeByAES256(user.phoneNumber);
               const encodedId = encodeByAES256(user.id);
               return (
                 <div key={user.id} className="text-gray-500 mb-3">
                   <Link
-                    href={`/admin/user?id1=${encodedId}&id2=${encodedPhoneNumber}`}
+                    href={`/admin/user?id1=${encodedId}&id2=${
+                      'User ' + Number(idx + 1)
+                    }`}
                   >
-                    {idx + 1}. {user.email.split('@')[0]}
+                    {idx + 1}. User {idx + 1}
                   </Link>
                 </div>
               );
@@ -66,14 +66,15 @@ async function Page() {
           {users
             .filter((user: any) => user.group === 'C')
             .map((user: any, idx: number) => {
-              const encodedPhoneNumber = encodeByAES256(user.phoneNumber);
               const encodedId = encodeByAES256(user.id);
               return (
                 <div key={user.id} className="text-gray-500 mb-3">
                   <Link
-                    href={`/admin/user?id1=${encodedId}&id2=${encodedPhoneNumber}`}
+                    href={`/admin/user?id1=${encodedId}&id2=${
+                      'User ' + Number(idx + 1)
+                    }`}
                   >
-                    {idx + 1}. {user.email.split('@')[0]}
+                    {idx + 1}. User {idx + 1}
                   </Link>
                 </div>
               );
@@ -84,14 +85,15 @@ async function Page() {
           {users
             .filter((user: any) => user.group === 'D')
             .map((user: any, idx: number) => {
-              const encodedPhoneNumber = encodeByAES256(user.phoneNumber);
               const encodedId = encodeByAES256(user.id);
               return (
                 <div key={user.id} className="text-gray-500 mb-3">
                   <Link
-                    href={`/admin/user?id1=${encodedId}&id2=${encodedPhoneNumber}`}
+                    href={`/admin/user?id1=${encodedId}&id2=${
+                      'User ' + Number(idx + 1)
+                    }`}
                   >
-                    {idx + 1}. {user.email.split('@')[0]}
+                    {idx + 1}. User {idx + 1}
                   </Link>
                 </div>
               );

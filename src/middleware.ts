@@ -21,6 +21,14 @@ const matchersForCheckUserType = ['/chat/create'];
 export async function middleware(request: NextRequest) {
   const session = await auth();
 
+  const isAdmin = request.cookies.get('isAdmin')?.value === 'true';
+  console.log('isAdmin', isAdmin);
+  if (!isAdmin && request.nextUrl.pathname.startsWith('/admin')) {
+    return NextResponse.redirect(new URL('/', request.url));
+  } else if (isAdmin && request.nextUrl.pathname.startsWith('/admin')) {
+    return NextResponse.next();
+  }
+
   // 사용자 타입 확인
   if (isMatch(request.nextUrl.pathname, matchersForCheckUserType)) {
     if (!session) {

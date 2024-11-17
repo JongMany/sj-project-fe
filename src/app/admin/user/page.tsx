@@ -8,10 +8,8 @@ type Props = {
     id2: string;
   };
 };
-async function Page({ searchParams: { id1 } }: Props) {
+async function Page({ searchParams: { id1, id2 } }: Props) {
   const encodedId = decodeByAES256(id1);
-  // const phoneNumber = decodeByAES256(id2);
-  // const slicedId = phoneNumber.slice(5, 9);
 
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_API_URL || ''}/api/v1/user/privacy/${encodedId}`,
@@ -22,9 +20,7 @@ async function Page({ searchParams: { id1 } }: Props) {
     <div className="px-4 py-8 text-black">
       <div className="flex flex-col gap-y-2 mb-4">
         <div className="text-black text-[18px] font-bold">User 정보</div>
-        <div className="flex">
-          ID: {data.id} / {data.email.split('@')[0]}
-        </div>
+        <div className="flex">ID: {id2}</div>
         <div>Group: {data.group}</div>
       </div>
       <div className="flex flex-col gap-y-2">
@@ -48,9 +44,7 @@ async function Page({ searchParams: { id1 } }: Props) {
           )}
         </div>
         <Link
-          href={`/admin/${encodedId}/logs?id=${encodedId}&id2=${
-            data.email.split('@')[0]
-          }`}
+          href={`/admin/${encodedId}/logs?id=${encodedId}&id2=${id2}`}
           className="text-gray-500"
         >
           사용자 로그 보기
